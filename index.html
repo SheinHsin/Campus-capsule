@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f8f6ed"><title>课间扭蛋 · 下课后，来点什么？</title>
+<style>
+:root {
+  --ink: #242e2b;
+  --teal: #005748;
+  --paper: #f8f6ed;
+  --edge: #d4d7cc;
+  --orange: #fc8856;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "DM Sans","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  color: inherit;
+}
+
+button:focus-visible,a:focus-visible,input:focus-visible+span {
+  outline: 3px solid #2273b4;
+  outline-offset: 3px;
+}
+
+[hidden] {
+  display: none!important;
+}
+
+header {
+  border-bottom: 1px solid var(--edge);
+}
+
+.bar,main,footer {
+  width: min(1080px,calc(100% - 64px));
+  margin: auto;
+}
+
+.bar {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand,.pocket {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+}
+
+.brand {
+  font-size: 19px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.capsule {
+  display: block;
+  width: 31px;
+  height: 19px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: linear-gradient(90deg,var(--orange) 46%,var(--ink) 46% 53%,#fff 53%);
+  transform: rotate(-38deg);
+}
+
+.pocket {
+  background: transparent;
+  border: 1px solid #b2bbaf;
+  padding: 6px 12px;
+  border-radius: 24px;
+  min-height: 42px;
+  font-size: 14px;
+}
+
+.pocket b {
+  background: #dbe9d9;
+  border-radius: 14px;
+  min-width: 23px;
+  padding: 2px 5px;
+  color: var(--teal);
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(28px,6vw,86px);
+  padding: 52px 0 44px;
+  align-items: center;
+}
+
+.poster {
+  position: relative;
+  min-width: 0;
+  align-self: stretch;
+  background-image: radial-gradient(#cad0be 1px,transparent 1px);
+  background-size: 16px 16px;
+  border-radius: 18px;
+}
+
+.intro {
+  position: relative;
+  z-index: 1;
+  padding: 12px 12px 0 0;
+  pointer-events: none;
+}
+
+.eyebrow,footer {
+  font-size: 12px;
+  letter-spacing: .12em;
+  font-weight: 750;
+  color: var(--teal);
+}
+
+.eyebrow {
+  margin: 0;
+}
+
+.eyebrow span {
+  color: #81968c;
+  padding: 0 6px;
+}
+
+h1,h2,p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(52px,5.5vw,80px);
+  line-height: 1.14;
+  letter-spacing: -.075em;
+  margin: 17px 0 13px;
+  font-weight: 900;
+}
+
+h1 em {
+  font-style: normal;
+  color: var(--teal);
+}
+
+.subtitle {
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.art {
+  position: relative;
+  width: 100%;
+  height: 258px;
+  display: grid;
+  place-items: center;
+}
+
+.machine {
+  position: relative;
+  width: 162px;
+  height: 217px;
+  transform: rotate(-8deg);
+  filter: drop-shadow(5px 6px 0 #253c3020);
+}
+
+.lid,.glass,.base,.foot,.knob,.slot,.ball,.coin {
+  position: absolute;
+  border: 3px solid var(--ink);
+}
+
+.lid {
+  left: 16%;
+  top: 2%;
+  width: 69%;
+  height: 11%;
+  border-radius: 50% 50% 13% 13%;
+  background: #ffab72;
+  z-index: 2;
+}
+
+.glass {
+  top: 9%;
+  left: 7%;
+  width: 86%;
+  height: 51%;
+  border-radius: 29% 29% 22% 22%;
+  overflow: hidden;
+  background: #d9ece2;
+}
+
+.base {
+  top: 57%;
+  left: 10%;
+  width: 80%;
+  height: 39%;
+  border-radius: 9px 9px 12px 12px;
+  background: var(--orange);
+  box-shadow: inset -9px 0 0 #e6794c;
+}
+
+.foot {
+  bottom: 1%;
+  left: 6%;
+  width: 88%;
+  height: 7%;
+  background: var(--ink);
+  border-radius: 6px;
+}
+
+.knob {
+  width: 38px;
+  height: 38px;
+  right: 17px;
+  top: 7px;
+  border-radius: 50%;
+  background: #f7e8a9;
+}
+
+.knob:after {
+  content: "";
+  position: absolute;
+  inset: 12px 1px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: #fff4cb;
+  transform: rotate(-35deg);
+}
+
+.coin {
+  left: 19px;
+  top: 18px;
+  width: 23px;
+  height: 6px;
+  border: 0;
+  background: var(--ink);
+  border-radius: 3px;
+}
+
+.slot {
+  bottom: 6px;
+  left: 18px;
+  width: 49px;
+  height: 20px;
+  background: #3a4740;
+  border-radius: 10px 10px 2px 2px;
+}
+
+.ball {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom,#fff7dd 47%,var(--ink) 47% 52%,var(--fill,#f4ad70) 52%);
+  transform: rotate(var(--turn,20deg));
+}
+
+.b1 {
+  bottom: -6px;
+  left: -2px;
+}
+
+.b2 {
+  bottom: -7px;
+  left: 43px;
+  --fill: #99b2e7;
+  --turn: -22deg;
+}
+
+.b3 {
+  bottom: 0;
+  right: -6px;
+  --fill: #c7b2e4;
+}
+
+.b4 {
+  bottom: 31px;
+  left: 19px;
+  --fill: #efc84e;
+  --turn: -34deg;
+}
+
+.b5 {
+  bottom: 39px;
+  right: 12px;
+  --fill: #67b19e;
+}
+
+.shine {
+  position: absolute;
+  top: 13px;
+  left: 11px;
+  width: 24px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fffc;
+  transform: rotate(-48deg);
+}
+
+.spark {
+  position: absolute;
+  color: var(--teal);
+  font-style: normal;
+}
+
+.one {
+  font-size: 32px;
+  left: 20%;
+  top: 29%;
+}
+
+.two {
+  font-size: 43px;
+  right: 16%;
+  bottom: 18%;
+  color: #ad592c;
+}
+
+.panel {
+  min-width: 0;
+  padding: clamp(22px,3.4vw,44px);
+  background: #fffdf5;
+  border: 1.5px solid var(--ink);
+  border-radius: 23px;
+  box-shadow: 5px 6px 0 #d5ddce;
+}
+
+.panel h2,dialog h2 {
+  font-size: clamp(29px,3vw,42px);
+  line-height: 1.23;
+  letter-spacing: -.05em;
+  margin: 8px 0 25px;
+}
+
+fieldset {
+  border: 0;
+  margin: 0 0 18px;
+  padding: 0;
+  min-width: 0;
+}
+
+legend {
+  padding: 0;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.options {
+  display: flex;
+  gap: 7px;
+}
+
+.options label {
+  position: relative;
+  flex: 1;
+}
+
+.options input {
+  position: absolute;
+  opacity: 0;
+}
+
+.options span,.secondary,#reasons button {
+  border: 1px solid #b9c3b7;
+  border-radius: 10px;
+  background: transparent;
+}
+
+.options span {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.options input:checked+span {
+  background: #dce9dc;
+  border-color: var(--teal);
+  box-shadow: inset 0 0 0 1px var(--teal);
+  font-weight: 750;
+  color: var(--teal);
+}
+
+.primary,.secondary {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  font-weight: 720;
+}
+
+.primary {
+  background: var(--teal);
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.primary span {
+  font-size: 20px;
+}
+
+.secondary {
+  margin-top: 10px;
+}
+
+.primary:hover {
+  background: #064537;
+}
+
+.secondary:hover,#reasons button:hover {
+  background: #ecf0e5;
+}
+
+footer {
+  border-top: 1px solid var(--edge);
+  padding: 18px 0 24px;
+  display: flex;
+  justify-content: space-between;
+  color: #53685e;
+  font-size: 11px;
+}
+
+.result-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.link {
+  border: 0;
+  background: transparent;
+  color: var(--teal);
+  text-decoration: underline;
+  min-height: 44px;
+}
+
+.tags {
+  color: var(--teal);
+  font-size: 14px;
+  margin: 18px 0 12px;
+}
+
+.step,.finish p,.dialog-note {
+  line-height: 1.75;
+}
+
+.finish {
+  border-left: 3px solid var(--orange);
+  background: #f4f1df;
+  padding: 12px 16px;
+  margin: 24px 0;
+}
+
+.finish strong {
+  font-size: 13px;
+}
+
+.finish p {
+  margin: 4px 0 0;
+}
+
+#notice {
+  font-size: 13px;
+  margin: 12px 0 0;
+}
+
+#notice:empty {
+  display: none;
+}
+
+dialog {
+  border: 1.5px solid var(--ink);
+  border-radius: 18px;
+  background: var(--paper);
+  color: var(--ink);
+  width: min(400px,calc(100% - 32px));
+  max-height: 76vh;
+  padding: 28px;
+  box-shadow: 4px 5px 0 #677766;
+}
+
+dialog::backdrop {
+  background: #112e256e;
+}
+
+.close {
+  float: right;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--edge);
+  background: white;
+  font-size: 22px;
+}
+
+.dialog-note,#entries small {
+  color: #52645b;
+  font-size: 14px;
+}
+
+#entries {
+  list-style: none;
+  padding: 0;
+}
+
+#entries li {
+  padding: 10px 0;
+  border-top: 1px dashed var(--edge);
+}
+
+#entries small {
+  display: block;
+}
+
+#reasons {
+  display: grid;
+  gap: 8px;
+}
+
+#reasons button {
+  min-height: 44px;
+}
+
+#result:not([hidden]) {
+  animation: reveal .25s ease-out;
+}
+
+@keyframes reveal {
+  from {
+    opacity: .3;
+    translate: 0 5px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media(max-width:740px) {
+  .bar,main,footer {
+    width: min(510px,calc(100% - 32px));
+  }
+  .bar {
+    height: 58px;
+  }
+  main {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 20px 0 25px;
+  }
+  .poster {
+    display: flex;
+    align-items: center;
+    min-height: 164px;
+  }
+  .intro {
+    padding: 0;
+    flex: 1;
+  }
+  .intro .eyebrow {
+    font-size: 10px;
+  }
+  h1 {
+    font-size: clamp(39px,8.5vw,52px);
+    margin: 10px 0;
+  }
+  .subtitle {
+    font-size: 12px;
+  }
+  .art {
+    width: 30%;
+    height: 152px;
+    flex: none;
+  }
+  .machine {
+    position: absolute;
+    transform: scale(.60) rotate(8deg);
+  }
+  .spark {
+    display: none;
+  }
+  .panel {
+    padding: 21px;
+  }
+  .panel h2 {
+    margin-bottom: 18px;
+  }
+  .eyebrow {
+    font-size: 11px;
+  }
+  fieldset {
+    margin-bottom: 13px;
+  }
+  footer {
+    padding: 14px 0;
+  }
+  .brand {
+    font-size: 17px;
+  }
+}
+
+@media(max-width:355px) {
+  .panel {
+    padding: 16px;
+  }
+  .machine {
+    transform: scale(.48) rotate(8deg);
+  }
+  .options span {
+    font-size: 13px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  * {
+    animation: none!important;
+    scroll-behavior: auto!important;
+  }
+}
+
+
+</style>
+
+
+</head>
+<body>
+<header><div class="bar"><a class="brand" href="./index.html"><i class="capsule mark" aria-hidden="true"></i>课间扭蛋</a>
+<button class="pocket" id="open-pocket">我的口袋 <b id="count">0</b></button></div></header>
+<main>
+<section class="poster" aria-labelledby="headline">
+<div class="intro">
+<p class="eyebrow">1024 创新日 <span>/</span> 第 02 颗心愿</p>
+<h1 id="headline">下课后，<br><em>来点什么？</em></h1>
+<p class="subtitle">用一颗扭蛋，决定这段空闲怎么过。</p></div>
+<div class="art" aria-hidden="true"><div class="machine"><div class="lid"></div><div class="glass"><i class="ball b1"></i><i class="ball b2"></i><i class="ball b3"></i><i class="ball b4"></i><i class="ball b5"></i><i class="shine"></i></div><div class="base"><i class="coin"></i><div class="knob"></div><div class="slot"></div></div><div class="foot"></div></div><i class="spark one">✦</i><i class="spark two">✧</i></div>
+</section>
+<section class="panel" aria-label="抽取任务">
+<div id="setup">
+<p class="eyebrow">抽取条件</p>
+<h2 tabindex="-1" id="setup-heading">此刻的你</h2>
+<form id="filters">
+<fieldset>
+<legend>有多少空闲？</legend>
+<div class="options">
+<label><input type="radio" name="time" value="5" checked><span>5 分钟</span></label>
+<label><input type="radio" name="time" value="10"><span>10 分钟</span></label>
+<label><input type="radio" name="time" value="20"><span>20 分钟</span></label></div>
+</fieldset>
+<fieldset>
+<legend>想在哪里？</legend>
+<div class="options">
+<label><input type="radio" name="place" value="stay" checked><span>待在原地</span></label>
+<label><input type="radio" name="place" value="out"><span>附近走走</span></label></div>
+</fieldset>
+<fieldset>
+<legend>和谁一起？</legend>
+<div class="options">
+<label><input type="radio" name="people" value="solo" checked><span>自己一个</span></label>
+<label><input type="radio" name="people" value="pair"><span>和朋友</span></label></div>
+</fieldset>
+<button class="primary" type="submit">扭出一件趣事 <span aria-hidden="true">↗</span></button></form></div>
+<div id="result" hidden><div class="result-top">
+<p class="eyebrow">你的任务卡</p>
+<button id="back" class="link">改条件</button></div>
+<p id="tags" class="tags"></p>
+<h2 id="card-title" tabindex="-1"></h2>
+<p id="step" class="step"></p><div class="finish"><strong>做到这里就算完成</strong>
+<p id="goal"></p></div>
+<button class="primary" id="complete">做完了，收进口袋 <span aria-hidden="true">✓</span></button>
+<button class="secondary" id="swap">换一颗</button></div>
+<div id="saved" hidden>
+<p class="eyebrow">任务完成</p>
+<h2 id="saved-heading" tabindex="-1">收进口袋啦。</h2>
+<p id="saved-name" class="step"></p>
+<button class="primary" id="again">再扭一颗 <span aria-hidden="true">↗</span></button>
+<button class="secondary" id="edit">重新选条件</button></div>
+<p id="notice" role="status"></p>
+</section>
+</main>
+<footer><span>CAMPUS CAPSULE</span><span>广财 · 1024 创新日</span></footer>
+<dialog id="pocket" aria-label="我的口袋">
+<form method="dialog">
+<button class="close" aria-label="关闭口袋">×</button></form>
+<p class="eyebrow">完成记录</p>
+<h2>我的口袋</h2>
+<p class="dialog-note">记录保存在当前浏览器。</p><ul id="entries"></ul>
+<p id="feedback-summary" class="dialog-note"></p></dialog>
+<dialog id="reason" aria-label="换卡原因">
+<form method="dialog">
+<button class="close" aria-label="关闭">×</button></form>
+<p class="eyebrow">换一颗</p>
+<h2>哪里不合适？</h2><div id="reasons">
+<button data-reason="太麻烦">太麻烦</button>
+<button data-reason="现在做不了">现在做不了</button>
+<button data-reason="">直接换一颗</button></div></dialog>
+<noscript>请开启 JavaScript 后抽取任务卡。</noscript>
+<script>
+/* 新卡使用新的固定 id，地点和人数的取值见 README.md。 */
+const TASKS = [
+  {
+    "id": "c01",
+    "title": "给今天配个色",
+    "minutes": 5,
+    "place": "stay",
+    "people": "solo",
+    "step": "环顾座位周围，找三样色调相近的物件，把它们框进同一张照片。",
+    "goal": "给这组颜色起个名字，比如「周三薄荷绿」。"
+  },
+  {
+    "id": "c02",
+    "title": "给书包办个展",
+    "minutes": 5,
+    "place": "stay",
+    "people": "solo",
+    "step": "挑出包里一件最不起眼的东西，假装它是一件刚出土的文物。",
+    "goal": "在备忘录写下一句荒诞但合理的展签。"
+  },
+  {
+    "id": "c03",
+    "title": "把窗外变成电影",
+    "minutes": 10,
+    "place": "stay",
+    "people": "solo",
+    "step": "用窗框或双手取景，挑一个你平常会忽略的画面。",
+    "goal": "给画面起片名，再写一句开场旁白。"
+  },
+  {
+    "id": "c04",
+    "title": "闭眼画一辆单车",
+    "minutes": 10,
+    "place": "stay",
+    "people": "solo",
+    "step": "随手拿一支笔或打开手机画板，闭上眼，从前轮开始画。",
+    "goal": "睁眼后只许补三笔，给这辆车取个型号。"
+  },
+  {
+    "id": "c05",
+    "title": "制作三格无声漫画",
+    "minutes": 20,
+    "place": "stay",
+    "people": "solo",
+    "step": "用笔帽、纸巾和水杯当演员，给它们安排一次意外相遇。",
+    "goal": "拍下三张静物照，连起来能看懂开头、转折和结尾。"
+  },
+  {
+    "id": "c06",
+    "title": "把课表改成菜单",
+    "minutes": 20,
+    "place": "stay",
+    "people": "solo",
+    "step": "挑今天的三门课或三个知识点，各想一个同名菜品。",
+    "goal": "写下一张有前菜、主菜和甜点的校园菜单。"
+  },
+  {
+    "id": "c07",
+    "title": "出门捡一枚字",
+    "minutes": 5,
+    "place": "out",
+    "people": "solo",
+    "step": "走到最近的走廊或门口，只在附近的招牌上找一个喜欢的字。",
+    "goal": "拍下这个字的特写，在心里给它配一种声音。"
+  },
+  {
+    "id": "c08",
+    "title": "追一条影子",
+    "minutes": 5,
+    "place": "out",
+    "people": "solo",
+    "step": "走到门外，找到一条有意思的影子。阴天也可以找灯下的影子。",
+    "goal": "换两个角度观察，选一个最像动物的角度。"
+  },
+  {
+    "id": "c09",
+    "title": "收集校园圆形",
+    "minutes": 10,
+    "place": "out",
+    "people": "solo",
+    "step": "下楼或走到附近连廊，看看日常物件里藏着哪些圆。",
+    "goal": "找到三个用途不同的圆，拼成一个想象中的机器人。"
+  },
+  {
+    "id": "c10",
+    "title": "当一回拟音师",
+    "minutes": 10,
+    "place": "out",
+    "people": "solo",
+    "step": "沿最近的路走一小段，停下听一听脚步声和周围的声响。",
+    "goal": "给三种声音各写一个拟声词，连成一行。"
+  },
+  {
+    "id": "c11",
+    "title": "校园字体侦探",
+    "minutes": 20,
+    "place": "out",
+    "people": "solo",
+    "step": "留出一半时间返程，沿路看看楼牌、海报和店招的字形。",
+    "goal": "找到两种风格差别最大的字，选一种给悬疑电影做片名。"
+  },
+  {
+    "id": "c12",
+    "title": "给熟路写明信片",
+    "minutes": 20,
+    "place": "out",
+    "people": "solo",
+    "step": "沿着平常最熟的一段路慢走，到一半时间就折返。",
+    "goal": "用一句话把今天才注意到的细节写给下次经过的自己。"
+  },
+  {
+    "id": "c13",
+    "title": "默契画同一个词",
+    "minutes": 5,
+    "place": "stay",
+    "people": "pair",
+    "step": "两人约定一个词，比如「迟到」。各自在手机上画，限时一分钟。",
+    "goal": "同时亮出画面，找出一个相同点。"
+  },
+  {
+    "id": "c14",
+    "title": "交换一首前奏",
+    "minutes": 5,
+    "place": "stay",
+    "people": "pair",
+    "step": "各自选一首最近常听的歌，把音量调到只够彼此听清。",
+    "goal": "各听一小段前奏，猜猜对方喜欢这首歌的理由。"
+  },
+  {
+    "id": "c15",
+    "title": "给水杯配音",
+    "minutes": 10,
+    "place": "stay",
+    "people": "pair",
+    "step": "选桌上的两个物件，一人认领一个角色。",
+    "goal": "轮流接三句对白，让它们为最后一张纸巾争辩。"
+  },
+  {
+    "id": "c16",
+    "title": "一句真事变电影",
+    "minutes": 10,
+    "place": "stay",
+    "people": "pair",
+    "step": "各说一件本周发生的小事，交换给对方改编。",
+    "goal": "每人给对方的小事起一个电影名，再念出宣传语。"
+  },
+  {
+    "id": "c17",
+    "title": "开一间纸上小店",
+    "minutes": 20,
+    "place": "stay",
+    "people": "pair",
+    "step": "两人选一个古怪的主打商品，比如「替人想歌名」。",
+    "goal": "一起写出店名、价格和一句招牌广告，再互演一次买卖。"
+  },
+  {
+    "id": "c18",
+    "title": "合作画一张怪兽证件照",
+    "minutes": 20,
+    "place": "stay",
+    "people": "pair",
+    "step": "把一张纸折成上下两部分，一个人先画上半身，只在折痕留两条线。",
+    "goal": "另一个人接着画下半身，展开后一起给怪兽填上姓名和专业。"
+  },
+  {
+    "id": "c19",
+    "title": "门口找一对双胞胎",
+    "minutes": 5,
+    "place": "out",
+    "people": "pair",
+    "step": "两人走到最近的门口，分别找一样和对方衣服颜色相近的东西。",
+    "goal": "互相指出自己的发现，一起评哪一个更接近。"
+  },
+  {
+    "id": "c20",
+    "title": "互指一个小细节",
+    "minutes": 5,
+    "place": "out",
+    "people": "pair",
+    "step": "到最近的走廊，各挑一个平时很少有人注意的细节。",
+    "goal": "每人给一个提示，让对方在三十秒内找出来。"
+  },
+  {
+    "id": "c21",
+    "title": "校园取景对决",
+    "minutes": 10,
+    "place": "out",
+    "people": "pair",
+    "step": "两人站在同一处，各自拍一张只包含建筑或植物的照片。",
+    "goal": "交换看照片，试着站到对方取景的位置。"
+  },
+  {
+    "id": "c22",
+    "title": "没有地图的导览",
+    "minutes": 10,
+    "place": "out",
+    "people": "pair",
+    "step": "选一段两人都熟悉的短路，一人负责前半段，一人负责后半段。",
+    "goal": "各把一个普通地点介绍成游客必看的景点。"
+  },
+  {
+    "id": "c23",
+    "title": "为校园设计一条散步线",
+    "minutes": 20,
+    "place": "out",
+    "people": "pair",
+    "step": "就近挑三个有特色的地点，边走边讨论它们之间有什么联系。",
+    "goal": "给这条短路线起名，画下三个点和连接它们的线。"
+  },
+  {
+    "id": "c24",
+    "title": "合拍一则天气预报",
+    "minutes": 20,
+    "place": "out",
+    "people": "pair",
+    "step": "看看附近树叶、积水或影子，找两个能表现今天气候的细节。",
+    "goal": "一人做主播，一人做拟音，用三句话现场播报。"
+  }
+];
+
+</script>
+<script>
+"use strict";
+
+const byId = id => document.getElementById(id);
+const cards = new Map(TASKS.map(card => [card.id, card]));
+const places = { stay: "待在原地", out: "附近走走" };
+const people = { solo: "自己一个", pair: "和朋友" };
+const storageKey = "campus-capsule:v1";
+const form = byId("filters");
+const reasons = ["太麻烦", "现在做不了"];
+let persistent = true;
+
+function readState() {
+  let raw = {};
+  try {
+    raw = JSON.parse(localStorage.getItem(storageKey)) || {};
+  } catch {
+    // 私密模式、禁用存储和损坏的旧数据都可以从空状态开始。
+  }
+  const recent = Array.isArray(raw.recent) ? raw.recent.filter(id => cards.has(id)) : [];
+  const done = Array.isArray(raw.done) ? raw.done.filter(entry =>
+    entry && cards.has(entry.id) && Number.isFinite(entry.when)) : [];
+  const votes = Array.isArray(raw.votes) ? raw.votes.filter(entry =>
+    entry && cards.has(entry.id) && reasons.includes(entry.reason)) : [];
+  const selection = raw.selection || {};
+  return {
+    recent: [...new Set(recent)], done, votes,
+    active: cards.has(raw.active) ? raw.active : null,
+    selection: {
+      time: [5, 10, 20].includes(selection.time) ? selection.time : 5,
+      place: Object.hasOwn(places, selection.place) ? selection.place : "stay",
+      people: Object.hasOwn(people, selection.people) ? selection.people : "solo"
+    }
+  };
+}
+const state = readState();
+
+function persist() {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  } catch {
+    persistent = false;
+    byId("notice").textContent = "当前浏览器无法保存，记录仅在本次打开期间有效。";
+  }
+}
+
+function pickCard(selection, recent) {
+  const pool = TASKS.filter(card => card.minutes <= selection.time &&
+    card.place === selection.place && card.people === selection.people);
+  if (!pool.length) return null;
+  const fresh = pool.filter(card => !recent.includes(card.id));
+  if (fresh.length) return fresh[Math.floor(Math.random() * fresh.length)];
+  // 顺序从旧到新。用尽后从最久未见的前半组中随机挑一张。
+  const ordered = pool.sort((a, b) => recent.indexOf(a.id) - recent.indexOf(b.id));
+  return ordered[Math.floor(Math.random() * Math.max(1, Math.floor(ordered.length / 2)))];
+}
+function showPanel(id, focusId) {
+  for (const name of ["setup", "result", "saved"]) byId(name).hidden = name !== id;
+  if (focusId) byId(focusId).focus();
+}
+function showCard(card, focus) {
+  byId("tags").textContent = [card.minutes + " 分钟", places[card.place], people[card.people]].join(" · ");
+  byId("card-title").textContent = card.title;
+  byId("step").textContent = card.step;
+  byId("goal").textContent = card.goal;
+  showPanel("result", focus ? "card-title" : null);
+}
+function draw() {
+  const card = pickCard(state.selection, state.recent);
+  if (!card) {
+    setup();
+    byId("notice").textContent = "这些条件暂时没有任务，试试另一组。";
+    return;
+  }
+  if (persistent) byId("notice").textContent = "";
+  state.recent = state.recent.filter(id => id !== card.id);
+  state.recent.push(card.id);
+  state.active = card.id;
+  persist();
+  showCard(card, true);
+}
+function setup() {
+  state.active = null;
+  persist();
+  showPanel("setup", "setup-heading");
+}
+function saveSelection() {
+  state.selection = {
+    time: Number(form.elements.time.value),
+    place: form.elements.place.value,
+    people: form.elements.people.value
+  };
+  persist();
+}
+function renderPocket() {
+  const list = byId("entries");
+  list.replaceChildren();
+  if (!state.done.length) {
+    const empty = document.createElement("li");
+    empty.textContent = "口袋还是空的。完成一件趣事，就能把卡片收在这里。";
+    list.append(empty);
+  }
+  for (const entry of state.done.slice().reverse()) {
+    const item = document.createElement("li");
+    const date = document.createElement("small");
+    date.textContent = new Date(entry.when).toLocaleDateString("zh-CN");
+    item.append(cards.get(entry.id).title, date);
+    list.append(item);
+  }
+  byId("feedback-summary").textContent = state.votes.length
+    ? "本机换卡原因 · " + reasons.map(reason =>
+      reason + " " + state.votes.filter(v => v.reason === reason).length + " 次").join(" / ")
+    : "";
+}
+form.addEventListener("change", saveSelection);
+form.addEventListener("submit", event => {
+  event.preventDefault();
+  saveSelection();
+  draw();
+});
+byId("back").addEventListener("click", setup);
+byId("edit").addEventListener("click", setup);
+byId("again").addEventListener("click", draw);
+byId("swap").addEventListener("click", () => byId("reason").showModal());
+byId("reasons").addEventListener("click", event => {
+  const button = event.target.closest("button[data-reason]");
+  if (!button || !state.active) return;
+  if (button.dataset.reason) state.votes.push({ id: state.active, reason: button.dataset.reason });
+  byId("reason").close();
+  draw();
+});
+byId("complete").addEventListener("click", () => {
+  const card = cards.get(state.active);
+  if (!card) return;
+  state.done.push({ id: card.id, when: Date.now() });
+  state.active = null;
+  persist();
+  byId("count").textContent = state.done.length;
+  byId("saved-name").textContent = "「" + card.title + "」已记入你的完成记录。";
+  showPanel("saved", "saved-heading");
+});
+byId("open-pocket").addEventListener("click", () => {
+  renderPocket();
+  byId("pocket").showModal();
+});
+
+for (const [field, value] of Object.entries(state.selection)) form.elements[field].value = String(value);
+byId("count").textContent = state.done.length;
+if (state.active) showCard(cards.get(state.active), false);
+
+</script>
+</body></html>
