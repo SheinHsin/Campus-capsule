@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="capsule-cloud-url" content="">
 <meta name="capsule-cloud-key" content="">
-<meta name="theme-color" content="#005c9f"><title>图一乐 · 1.1</title>
+<meta name="theme-color" content="#005c9f"><title>图一乐 · 1.1.1</title>
 <style>
 :root{--ink:#232547;--teal:#303365;--edge:#d6d5cd;--paper:#f7f6ef;--orange:#d95132;--mono:var(--sans);--sans:"Google Sans","Noto Sans SC Local","Noto Sans SC","PingFang SC","Microsoft YaHei UI",sans-serif;font-family:var(--sans);background:var(--paper);color:var(--ink)}
 *{box-sizing:border-box}
@@ -741,6 +741,21 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
   .room-grid{transform:none}
 }
 
+
+@media(prefers-reduced-motion:no-preference){
+  .room-backdrop::before{
+    content:"";position:absolute;inset:-13%;
+    background:radial-gradient(ellipse at 37% 46%,#82caff25,transparent 57%),
+               radial-gradient(ellipse at 69% 56%,#062a651c,transparent 52%);
+    animation:room-drift 21s ease-in-out infinite alternate;
+    animation-play-state:paused;
+  }
+  .exhibit[data-ambient="on"] .room-backdrop::before{animation-play-state:running}
+  @keyframes room-drift{
+    from{transform:translate3d(-6%,2%,0) scale(.98);opacity:.52}
+    to{transform:translate3d(8%,-4%,0) scale(1.12);opacity:1}
+  }
+}
 </style>
 
 
@@ -878,7 +893,7 @@ body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#i
 <p id="notice" role="status"></p>
 </section></div>
 </main>
-<footer><div class="footer-version"><span>图一乐 · 1.1</span><a href="https://sheinhsin.github.io/Just-for-Giggle-CampusVersion/versions/v1.0.0/">1.0 存档</a><button id="intro-replay" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5.5a5.5 5.5 0 1 1-.5 4M3 2v3.5h3.5"/></svg>重播开场</button></div><span>广财 · 1024 创新日</span></footer>
+<footer><div class="footer-version"><span>图一乐 · 1.1.1</span><a href="https://sheinhsin.github.io/Just-for-Giggle-CampusVersion/versions/v1.0.0/">1.0 存档</a><button id="intro-replay" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5.5a5.5 5.5 0 1 1-.5 4M3 2v3.5h3.5"/></svg>重播开场</button></div><span>广财 · 1024 创新日</span></footer>
 <dialog id="meal-dialog" aria-labelledby="meal-name" aria-describedby="meal-summary">
   <form method="dialog"><button type="submit" class="close" aria-label="关闭餐食推荐">×</button></form>
   <p class="meal-label">这顿推荐</p>
@@ -1904,10 +1919,9 @@ function openMeal() {
   if(!displayOffer())return false;
   const dialog=byId("meal-dialog");
   if(!dialog.open){
-    clearLook();
-    cleanFrame();
+    view.targetYaw=0;view.targetPitch=0;
     dialog.showModal();
-    paintRack();
+    scheduleRack();
   }
   return true;
 }
@@ -2588,7 +2602,7 @@ const modes = {
 };
 const turn = Math.PI*2;
 const motionPref = matchMedia("(prefers-reduced-motion: reduce)");
-const rack = {mode:null,items:[],pool:[],angle:0,phase:"idle",paused:motionPref.matches,frame:0,last:0,spin:null};
+const rack = {mode:null,items:[],pool:[],angle:0,phase:"idle",paused:false,frame:0,last:0,spin:null};
 function funPool(selection) {
   return TASKS.filter(c=>c.minutes<=selection.time && c.place===selection.place && c.people===selection.people);
 }
@@ -2674,7 +2688,7 @@ function paintRack() {
   const count = rack.items.length;
   const mobile = width <= 720;
   const centered = rack.phase === "landed";
-  const manual = rack.paused || motionPref.matches;
+  const manual = !ambientOn();
   const yaw = manual ? 0 : view.yaw;
   const pitch = manual ? 0 : view.pitch;
   roomStage.style.setProperty("--look-x",(-yaw*104).toFixed(2)+"px");
@@ -2732,11 +2746,15 @@ function canBrowse() {
 function clampAngle(angle) {
   return Math.atan2(Math.sin(angle),Math.cos(angle));
 }
+function ambientOn() {
+  return !rack.paused&&!motionPref.matches;
+}
+function autoOrbit() {
+  return ambientOn()&&!dragging?.active&&rack.items.length>1;
+}
 function holdPreview() {
-  rack.paused = true;
   clearLook();
   cleanFrame();
-  setRackState("idle");
 }
 function nudgePreview(direction) {
   if (!canBrowse()) return;
@@ -2800,6 +2818,7 @@ function finishDrag(event) {
   if (dragging?.id !== event.pointerId) return;
   dragging = null;
   room.classList.remove("dragging");
+  scheduleRack();
 }
 room.addEventListener("pointerup", finishDrag);
 room.addEventListener("pointercancel", finishDrag);
@@ -2813,6 +2832,7 @@ room.addEventListener("wheel", event => {
   holdPreview();
   rack.angle = clampAngle(rack.angle + Math.max(-110, Math.min(110, delta)) * .007);
   paintRack();
+  scheduleRack();
 }, {passive:false});
 room.addEventListener("keydown", event => {
   if (!event.target.closest(".orbit-controls") || !["ArrowLeft","ArrowRight"].includes(event.key)) return;
@@ -2851,22 +2871,26 @@ measureRoom();
 
 function setRackState(phase) {
   rack.phase=phase;
-  byId("stage").parentElement.dataset.phase=phase;
+  const exhibit=byId("stage").parentElement;
+  exhibit.dataset.phase=phase;
+  exhibit.dataset.ambient=ambientOn()?"on":"off";
   const spin=phase==="spin", fixed=phase==="landed", none=!rack.items.length;
   byId("rack-status").textContent=spin?"抽取中…":fixed?(hub.mode==="study"?"当前步骤已就位":"已抽中 · 卡片已居中"):none?(hub.mode==="study"?"等待学习任务":"请调整筛选条件"):"等待抽取";
   const button=byId("motion-btn");
-  button.disabled=spin||none||(rack.items.length===1&&!fixed);
-  const playing=!button.disabled&&!fixed&&!rack.paused;
-  const caption=spin?"转盘运行中":fixed?(hub.mode==="study"?"查看当前步骤":"查看抽中卡片"):none?"暂无卡片":rack.items.length===1?"单张候选":playing?"暂停轮转":"开始轮转";
+  button.disabled=spin||motionPref.matches;
+  const playing=ambientOn();
+  const caption=spin?"转盘运行中":motionPref.matches?"已减少动效":playing?"暂停动效":"开启动效";
   button.innerHTML='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="'+(playing?'M2 1h3v10H2zM7 1h3v10H7z':'M3 1l8 5-8 5z')+'"/></svg>';
   button.append(caption);button.setAttribute("aria-label",caption);
   previewButtons.forEach(button=>{button.disabled=!canBrowse();});
   document.querySelector(".panel").inert=spin;
   paintRack();
-  document.querySelector(".exhibit").setAttribute("aria-busy",String(spin));
+  exhibit.setAttribute("aria-busy",String(spin));
 }
 function scheduleRack(){
-  if(!rack.frame&&!document.hidden&&!byId("meal-dialog").open&&(rack.phase==="spin"||previewMove||lookMoving()||(rack.phase==="idle"&&!rack.paused&&rack.items.length>1))) rack.frame=requestAnimationFrame(tickRack);
+  if(!rack.frame&&!document.hidden&&(rack.spin||previewMove||lookMoving()||autoOrbit())){
+    rack.frame=requestAnimationFrame(tickRack);
+  }
 }
 function cleanFrame(){cancelAnimationFrame(rack.frame);rack.frame=0;rack.last=0;}
 function alignCard(id) {
@@ -2925,6 +2949,7 @@ function refreshRack() {
 function land() {
   const {id,commit}=rack.spin;
   rack.spin=null;cleanFrame();alignCard(id);setRackState("landed");commit();
+  scheduleRack();
 }
 function tickRack(now) {
   rack.frame=0;
@@ -2942,8 +2967,10 @@ function tickRack(now) {
     s.energy=t<peak?t/peak:(1-t)/(1-peak);
     rack.angle=s.from+s.travel*eased;
     if(t===1){land();return;}
-  }else if(rack.phase==="idle"&&!rack.paused){
-    rack.angle=(rack.angle+Math.min(64,rack.last?now-rack.last:0)*.00013)%turn;
+  }else if(autoOrbit()){
+    // The selected card is pinned by paintRack; only its surrounding orbit keeps moving.
+    const speed=(rack.phase==="landed"||byId("meal-dialog").open) ? .000085 : .00013;
+    rack.angle=(rack.angle+Math.min(64,rack.last?now-rack.last:0)*speed)%turn;
   }
   view.yaw+=(view.targetYaw-view.yaw)*.12;
   view.pitch+=(view.targetPitch-view.pitch)*.12;
@@ -2967,14 +2994,17 @@ function spinTo(id,commit) {
   scheduleRack();
 }
 byId("motion-btn").addEventListener("click",()=>{
-  if(rack.phase==="landed"){
-    const id=hub.mode==="study"?"study-name":"card-title";
-    const target=byId(id);target.tabIndex=-1;target.focus({preventScroll:true});
-    target.scrollIntoView({block:"center",behavior:motionPref.matches?"instant":"smooth"});return;
-  }
-  previewMove=null;rack.paused=!rack.paused;clearLook();cleanFrame();setRackState("idle");scheduleRack();
+  previewMove=null;rack.paused=!rack.paused;
+  clearLook();cleanFrame();setRackState(rack.phase);scheduleRack();
 });
-motionPref.addEventListener("change",()=>{rack.paused=motionPref.matches;clearLook();if(rack.paused)previewMove=null;if(rack.spin&&rack.paused){land();return;}cleanFrame();setRackState(rack.phase);scheduleRack();});
+motionPref.addEventListener("change",()=>{
+  clearLook();
+  if(motionPref.matches){
+    previewMove=null;
+    if(rack.spin){land();return;}
+  }
+  cleanFrame();setRackState(rack.phase);scheduleRack();
+});
 document.addEventListener("visibilitychange",()=>{cleanFrame();if(!document.hidden)scheduleRack();});
 measureRoom();
 
