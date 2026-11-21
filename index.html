@@ -1,8 +1,10 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f9fbff"><title>图一乐 · 课间转盘 · 1.0 正式版</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="capsule-cloud-url" content="">
+<meta name="capsule-cloud-key" content="">
+<meta name="theme-color" content="#005c9f"><title>图一乐 · 1.1</title>
 <style>
 :root{--ink:#232547;--teal:#303365;--edge:#d6d5cd;--paper:#f7f6ef;--orange:#d95132;--mono:var(--sans);--sans:"Google Sans","Noto Sans SC Local","Noto Sans SC","PingFang SC","Microsoft YaHei UI",sans-serif;font-family:var(--sans);background:var(--paper);color:var(--ink)}
 *{box-sizing:border-box}
@@ -523,6 +525,222 @@ footer{width:calc(100% - clamp(36px,7.2vw,112px));max-width:1580px;margin:0 auto
 }
 
 
+.account-actions{display:flex;gap:7px;align-items:center;justify-content:end;justify-self:end}
+.account-actions .pocket{white-space:nowrap;padding-inline:10px}
+.account-action{background:transparent;color:#1b3280;border:1px solid #ccd9f6;border-radius:21px;min-height:34px;padding:5px 11px}
+.account-action:hover{background:#edf3ff}
+#account,#awards{width:min(465px,calc(100vw - 30px));max-height:86dvh;overflow:auto}
+#account .field{margin-bottom:12px;gap:5px}
+.account-links{display:flex;gap:18px;margin:12px 0 3px;flex-wrap:wrap}
+#account-message:empty{display:none}
+#account .link:disabled,#account .field input:disabled{opacity:.6;cursor:default}
+.rank-choice{display:flex;align-items:center;gap:9px;font-size:14px;margin:12px 0 4px}
+.rank-choice input{accent-color:var(--teal);width:18px;height:18px}
+#account-sign-out{display:block;margin-top:14px}
+#awards section{padding:13px 0 4px;border-top:1px solid var(--edge)}
+#awards h3{margin:0 0 7px;font-size:15px}
+.award-list{list-style:none;margin:0;padding:0;display:grid;gap:5px;font-size:13px}
+.award-list li{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:6px 8px;border-radius:4px}
+.award-list small{color:var(--muted);line-height:1.45}
+.award-list li[data-unlocked=true],#custom-awards li:has(strong){background:#eef4ff;color:#143db3}
+#scene-note{display:flex;gap:3px 12px;align-items:baseline;justify-content:space-between;margin:0 0 13px;padding:7px 9px;background:#eef4ff;color:#1e428f;border-radius:5px;font-size:12px}
+#scene-note button{flex:none}
+#reasons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#reasons button{min-height:39px;font-size:14px;margin:0}
+#reasons button:last-child{grid-column:1/-1;background:transparent}
+#reason .dialog-note{margin-top:-12px}
+@media(max-width:720px){
+ .bar .account-actions{margin-left:auto;gap:4px}
+ .account-actions .pocket{padding-inline:6px}
+ .account-actions .pocket svg{display:none}
+ .account-action{padding-inline:7px;min-height:31px;font-size:12px}
+ #account,#awards{padding:18px}
+}
+
+:root{
+  --skydiver:#005c9f;--sky-deep:#003d71;--sky-text:#e4f3ff;--sky-line:#f0f8ff56;
+  --paper:#f7fbfe;--ink:#122738;--teal:#005c9f;--edge:#cadce7;--muted:#3d5568;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.5rem;--s6:2rem;
+  --ui-small:.8125rem;--ui-control:.9375rem;--ui-body:1rem;
+  --panel-width:29rem;--focus-canvas:#ffdd91;
+}
+html,body{background:var(--skydiver)}
+body{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
+body > header{
+  background:var(--skydiver);border:0;border-bottom:1px solid var(--sky-line);
+  padding-top:env(safe-area-inset-top);
+}
+.bar,body > footer{
+  width:min(100%,94rem);max-width:none;
+  padding-inline:max(clamp(1rem,3.4vw,3rem),env(safe-area-inset-left)) max(clamp(1rem,3.4vw,3rem),env(safe-area-inset-right));
+}
+.bar{min-height:4rem;gap:var(--s3)}
+.brand{color:white;font-size:1.375rem;max-width:100%;overflow-wrap:anywhere}
+.brand-symbol{color:white;width:1.3rem;height:1.55rem}
+.mode-switch{
+  align-items:center;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s1);
+  width:min(23rem,100%);margin:0;padding:0;
+}
+.mode-switch button,.mode-switch button[aria-pressed=true]{
+  min-width:0;min-height:44px;white-space:normal;overflow-wrap:anywhere;
+  color:var(--sky-text);font-weight:550;font-size:var(--ui-control);line-height:1.35;
+  padding:var(--s1) var(--s3);border-radius:7px;
+}
+.mode-switch button[aria-pressed=true]{background:white;color:#004b85;font-weight:700}
+.mode-switch button:not([aria-pressed=true]):hover,.account-action:hover,.account-actions .pocket:hover{background:#ffffff18;color:white}
+.mode-switch button::after{display:none}
+.account-actions{flex-wrap:wrap}
+.account-action,.account-actions .pocket{
+  background:transparent;border:1px solid #b3d5e9;
+  border-radius:7px;min-height:44px;padding:var(--s1) var(--s2);
+  color:white;font-size:var(--ui-small);line-height:1.35;
+}
+.account-actions .pocket b{color:white;border-color:#cbe3f2;font-size:inherit}
+body > main{display:flex;flex:1;width:100%;margin:0;min-height:0}
+.workspace{
+  flex:1;min-width:0;min-height:calc(28rem + 68px);
+  padding:max(4rem,4vw) max(1rem,env(safe-area-inset-right)) 6rem max(1rem,env(safe-area-inset-left));
+  background:var(--skydiver);align-content:center;
+}
+.exhibit{background:var(--skydiver)}
+#stage{background:var(--skydiver)}
+.room-backdrop{
+  position:absolute;inset:-1px;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 39%,#0763a6 0%,var(--skydiver) 47%,var(--sky-deep) 100%);
+  transform:scale(calc(1 + .03*var(--spin-energy,0)));
+  filter:blur(calc(7px*var(--spin-energy,0)));
+}
+.room-backdrop::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-conic-gradient(from 32deg at 50% 49%,#b8e6ff25 0deg,#73caff0c 4deg,transparent 13deg,transparent 36deg);
+  transform:rotate(calc(var(--spin-energy,0)*9deg)) scale(1.2);
+  opacity:calc(var(--spin-energy,0)*.78);
+}
+.room-grid{stroke:#bfdffb3d;transform:translate3d(var(--look-x,0px),var(--look-y,0px),0) rotate(var(--look-roll,0deg)) scale(1.09)}
+.room-grid .sphere-meridians{stroke:#b4dcfb28}
+.room-type span{-webkit-text-stroke:1px #c2e9ff65;opacity:.74}
+.stage-bar,.stage-foot{left:clamp(1rem,3.4vw,3rem);right:clamp(1rem,3.4vw,3rem);gap:var(--s2)}
+.stage-bar{top:var(--s2);height:auto;min-height:44px}
+.stage-foot{bottom:var(--s3);border-top:1px solid var(--sky-line)}
+.stage-title b,.pool-count,.rack-state,.motion{font-size:var(--ui-small);line-height:1.4;color:white}
+.rack-state{white-space:normal;text-align:right}
+.rack-state i{flex:none}
+.orbit-step,.motion{min-height:44px}
+.orbit-step,.motion,#intro-replay{color:white;text-decoration-color:#d1eaf8}
+.orbit-step:disabled,.motion:disabled{color:#d0e4f2}
+.mast{width:min(100%,43rem);padding-block:0 var(--s5)}
+.mast h1{font-size:clamp(2.55rem,5vw,4.6rem);line-height:1.1;font-weight:730}
+.subtitle{font-size:var(--ui-control);line-height:1.65;color:white;margin:var(--s3) auto 0;max-width:26em}
+footer #intro-replay{position:static;font-size:var(--ui-small);min-height:32px}
+.mast .glyph-line{white-space:normal}
+.panel{
+  padding:var(--s5);
+  color:var(--ink);background:#fbfdff;border:1px solid #e4eef5;border-radius:12px;
+  box-shadow:0 16px 50px #002b5042;
+}
+.panel h2,dialog h2{font-size:clamp(1.5rem,2vw,1.875rem);line-height:1.35;font-weight:690;margin-block:0 var(--s4);overflow-wrap:anywhere}
+.panel legend,.field{color:#18374f;font-size:var(--ui-control);line-height:1.5}
+#filters fieldset,.field{margin-bottom:var(--s4)}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,4.375rem),1fr));gap:var(--s2)}
+.options span,.taste-options span,.field input,.field select,.field textarea,.secondary,#reasons button{
+  background:#f4f9fc;color:#25465e;border-color:#6b8ca3;
+}
+.options span,.taste-options span{
+  min-height:44px;white-space:normal;overflow-wrap:anywhere;text-align:center;font-size:var(--ui-control);line-height:1.4;
+  padding:var(--s1) var(--s2);
+}
+.options input:checked+span,.taste-options input:checked+span{
+  background:#e1effa;border-color:#005c9f;color:#003d6d;box-shadow:inset 0 0 0 1px #005c9f;
+}
+.options label:hover span,.taste-options label:hover span{border-color:#0061a5}
+.primary,.primary:hover{background:var(--skydiver);border-color:var(--skydiver);color:white}
+.primary:hover{background:#004679;border-color:#004679}
+.primary:active{transform:none}
+.primary,.secondary,.field input,.field select,.field textarea{font-size:var(--ui-control);min-height:44px;line-height:1.5}
+.field input,.field select,.field textarea{min-width:0;max-width:100%}
+.field select{white-space:normal}
+.step,.finish p,#study-reply,.paper{font-size:var(--ui-body);line-height:1.7}
+.tags,.hint,.dialog-note,.food-count,#plan-list li,.award-list,.link,#notice,#food-status,#study-status,
+.field small,.taste-field small,#entries small,.dish-info small{font-size:var(--ui-small);line-height:1.55}
+#scene-note{font-size:var(--ui-small)}
+.paper,.finish{background:#e8f2f9}
+.step,.finish p,#study-reply,.field small,.menu-list li,.award-list li,.dialog-note{overflow-wrap:anywhere}
+#menu-editor form .pair-fields{grid-template-columns:minmax(0,1fr);gap:0}
+summary{min-height:44px;align-content:center;font-size:var(--ui-control);line-height:1.45}
+footer{
+  flex:none;display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s2) var(--s4);
+  margin:0 auto;padding-block:var(--s2) max(var(--s2),env(safe-area-inset-bottom));
+  color:white;font-size:var(--ui-small);
+}
+.footer-version{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s1) var(--s3)}
+footer a{color:white;text-underline-offset:3px;min-height:24px;display:inline-flex;align-items:center}
+body > header :focus-visible,footer :focus-visible,.stage-foot :focus-visible,#intro-replay:focus-visible{
+  outline:3px solid var(--focus-canvas);outline-offset:3px;
+}
+.panel :focus-visible,dialog :focus-visible,.options input:focus-visible+span,.taste-options input:focus-visible+span{
+  outline:3px solid #004d85;outline-offset:3px;
+}
+#food-status:not(:empty){margin-block:var(--s3) 0;color:#145166}
+#meal-dialog{
+  position:relative;width:min(29rem,calc(100% - 2rem));max-height:calc(100dvh - 2rem);overflow:auto;
+  padding:var(--s5);border:1px solid #e2edf3;border-radius:13px;color:var(--ink);
+}
+#meal-dialog .close{min-width:44px;min-height:44px}
+#meal-dialog .meal-label{margin:0 var(--s6) var(--s2) 0;color:#214d70;font-size:var(--ui-small);font-weight:650}
+#meal-dialog h2{margin:0 var(--s6) var(--s3) 0}
+.meal-details{
+  display:grid;gap:var(--s1);padding:var(--s3) var(--s4);margin-block:var(--s3) var(--s5);
+  background:#eaf4fa;border-radius:7px;font-size:var(--ui-control);color:#26455a;overflow-wrap:anywhere;
+}
+.meal-details p{margin:0}
+.meal-details .meal-price{font-size:var(--ui-body);font-weight:680;color:#19364d}
+#meal-limit{margin:0 0 var(--s4)}
+#meal-dialog::backdrop{background:#00294285}
+#launch.paper-intro{--intro-paper:var(--skydiver);--intro-ink:white;--intro-blue:#b5e5ff}
+#launch.paper-intro::backdrop{background:var(--skydiver)}
+#launch.paper-intro #skip-launch,#launch.paper-intro #skip-launch kbd{color:white;border-color:#cae6f8}
+#launch.paper-intro .launch-progress{background:#ffffff63}
+.paper-composition .print-tile:first-child{--plate:#e3f2fd;--impression:#004c85}
+.paper-composition .print-tile:nth-child(3){--plate:#003a64;--impression:#eef8ff}
+@media(max-width:860px){
+  .bar{display:flex;flex-wrap:wrap;gap:0 var(--s2);padding-top:var(--s1)}
+  .brand{flex:none;min-height:48px}
+  .account-actions{flex:0 1 auto;margin-left:auto;max-width:100%}
+  .mode-switch{order:3;flex:0 0 100%;width:100%;margin-block:var(--s1) var(--s2)}
+}
+@media(max-width:720px){
+  .workspace{padding-top:4rem;min-height:0}
+  .bar{padding-inline:.75rem}
+  .account-actions{gap:var(--s1)}
+  .account-actions .pocket,.account-action{padding-inline:var(--s2)}
+  .mast{padding-bottom:clamp(8.75rem,44vw,11.5rem)}
+  .mast h1{font-size:clamp(2.2rem,9.4vw,3.8rem)}
+  .subtitle{padding-inline:.25rem}
+  .panel{padding:var(--s4)}
+  #food-form .pair-fields{grid-template-columns:minmax(0,1fr);gap:0}
+  .stage-bar,.stage-foot{left:1rem;right:1rem}
+  .orbit-controls{gap:0}
+  .orbit-step,.motion{padding-inline:.25rem}
+  .orbit-step{min-width:36px}
+  .rack-state{max-width:48%}
+  .stage-title b,.pool-count{font-size:var(--ui-small)}
+  #meal-dialog{padding:var(--s4)}
+}
+@media(max-width:370px){
+  .brand{font-size:1.2rem}
+  .brand-symbol{width:1rem}
+  .account-action{min-width:0}
+  .options{grid-template-columns:repeat(auto-fit,minmax(min(100%,4.25rem),1fr))}
+  .mode-switch button,.mode-switch button[aria-pressed=true]{padding-inline:.25rem}
+  .options{gap:.25rem}
+  .options span{padding-inline:.25rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .room-backdrop{filter:none;transform:none}
+  .room-backdrop::after{display:none}
+  .room-grid{transform:none}
+}
+
 </style>
 
 
@@ -545,16 +763,16 @@ footer{width:calc(100% - clamp(36px,7.2vw,112px));max-width:1580px;margin:0 auto
 <button type="button" data-mode="fun" aria-pressed="true">找点乐子</button>
 <button type="button" data-mode="food" aria-pressed="false">今天吃啥</button>
 <button type="button" data-mode="study" aria-pressed="false">开始学习</button></nav>
-<button class="pocket" id="open-pocket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v10l-7 5-7-5zM8 9h8"/></svg>我的口袋 <b id="count">0</b></button></div></header>
+<div class="account-actions"><button class="account-action" id="open-account" type="button">登录</button><button class="account-action" id="open-awards" type="button">成就</button><button class="pocket" id="open-pocket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v10l-7 5-7-5zM8 9h8"/></svg>口袋 <b id="count">0</b></button></div></div></header>
 <main><div class="workspace"><div class="mast"><div class="mast-copy"><h1 id="headline">课间转盘</h1>
-<p class="subtitle">抽件趣事，选一顿饭，或把学习往前推一步。</p></div><button id="intro-replay" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5.5a5.5 5.5 0 1 1-.5 4M3 2v3.5h3.5"/></svg>重播开场</button>
+<p class="subtitle">抽件趣事，选一顿饭，或把学习往前推一步。</p></div>
 </div>
 <section class="exhibit" aria-label="双层球形卡片转盘">
 <div class="stage-bar"><span class="stage-title"><i class="on-air"></i><b id="rack-label">趣事卡池</b></span><span class="pool-count" id="pool-count"></span></div>
 <div id="stage">
 <div id="model" aria-hidden="true">
-<svg class="room-grid" preserveAspectRatio="none"><path class="sphere-parallels"/><path class="sphere-meridians"/></svg>
-<div class="room-type"><span>图</span><span>一</span><span>乐</span></div>
+<div class="room-backdrop"><svg class="room-grid" preserveAspectRatio="none"><path class="sphere-parallels"/><path class="sphere-meridians"/></svg>
+<div class="room-type"><span>图</span><span>一</span><span>乐</span></div></div>
 <div id="tickets"></div></div>
 <div id="empty-rack" hidden>没有符合条件的卡片</div></div>
 <div class="stage-foot"><div class="orbit-controls">
@@ -565,6 +783,7 @@ footer{width:calc(100% - clamp(36px,7.2vw,112px));max-width:1580px;margin:0 auto
 </section><section class="panel" aria-label="抽取设置和结果">
 
 <div id="fun-view">
+<div id="scene-note" hidden><span id="scene-label"></span><button class="link" type="button" id="scene-clear">清除场景</button></div>
 <div id="setup">
 
 <h2 tabindex="-1" id="setup-heading">抽一件趣事</h2>
@@ -615,10 +834,8 @@ footer{width:calc(100% - clamp(36px,7.2vw,112px));max-width:1580px;margin:0 auto
   </div>
   <fieldset class="taste-field"><legend>口味标签 <small>可多选，须同时符合</small></legend><div class="taste-options" id="food-tags"></div></fieldset>
   <div class="food-count"><span id="food-count" role="status"></span><button type="button" class="link" id="food-reset">清除筛选</button></div>
-  <button class="primary" id="food-roll">帮我挑一餐 <span aria-hidden="true">⟳</span></button>
+  <button class="primary" id="food-roll" type="submit">帮我挑一餐 <span aria-hidden="true">↗</span></button>
 </form>
-<div id="food-offer" class="paper" hidden aria-live="polite"></div>
-<button class="secondary" id="food-confirm" hidden>决定了，今天吃它</button>
 <p id="food-status" role="status"></p>
 <details id="menu-editor"><summary>我的菜单</summary>
   <p class="hint">示例菜品和参考价供试玩。可以添加常吃的菜，或给旧菜补上分类。</p>
@@ -661,22 +878,82 @@ footer{width:calc(100% - clamp(36px,7.2vw,112px));max-width:1580px;margin:0 auto
 <p id="notice" role="status"></p>
 </section></div>
 </main>
-<footer><span>图一乐 · 校园心愿计划 · 1.0 正式版</span><span>广财 · 1024 创新日</span></footer>
+<footer><div class="footer-version"><span>图一乐 · 1.1</span><a href="https://sheinhsin.github.io/Just-for-Giggle-CampusVersion/versions/v1.0.0/">1.0 存档</a><button id="intro-replay" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5.5a5.5 5.5 0 1 1-.5 4M3 2v3.5h3.5"/></svg>重播开场</button></div><span>广财 · 1024 创新日</span></footer>
+<dialog id="meal-dialog" aria-labelledby="meal-name" aria-describedby="meal-summary">
+  <form method="dialog"><button type="submit" class="close" aria-label="关闭餐食推荐">×</button></form>
+  <p class="meal-label">这顿推荐</p>
+  <div id="food-offer" aria-live="polite">
+    <h2 id="meal-name"></h2>
+    <div class="meal-details" id="meal-summary">
+      <p class="meal-price" id="meal-price"></p>
+      <p id="meal-tags"></p>
+    </div>
+  </div>
+  <p class="hint" id="meal-limit" hidden>当前筛选只有这一道菜。</p>
+  <button type="button" class="primary" id="food-confirm">就吃这道</button>
+  <button type="button" class="secondary" id="food-again">换一道</button>
+</dialog>
+
 <dialog id="pocket" aria-label="我的口袋">
 <form method="dialog">
 <button class="close" aria-label="关闭口袋">×</button></form>
 <p class="eyebrow">完成记录</p>
 <h2>我的口袋</h2>
-<p class="dialog-note">趣事、餐食和学习记录保存在当前浏览器。</p><p class="hint" id="liked-list"></p><ul id="entries"></ul>
+<p class="dialog-note" id="pocket-location">记录保存在当前浏览器。</p><p class="hint" id="liked-list"></p><ul id="entries"></ul>
 <p id="feedback-summary" class="dialog-note"></p></dialog>
 <dialog id="reason" aria-label="换卡原因">
 <form method="dialog">
 <button class="close" aria-label="关闭">×</button></form>
 <p class="eyebrow">换一张</p>
-<h2>哪里不合适？</h2><div id="reasons">
-<button data-reason="太麻烦">太麻烦</button>
-<button data-reason="现在做不了">现在做不了</button>
-<button data-reason="">直接换一张</button></div></dialog>
+<h2>哪里不合适？</h2><p class="dialog-note">接下来的抽卡会参考这个场景，可随时清除。</p><div id="reasons">
+<button type="button" data-reason="时间不够">时间不够</button>
+<button type="button" data-reason="不方便出门">不方便出门</button>
+<button type="button" data-reason="身边没人">身边没人</button>
+<button type="button" data-reason="缺工具">缺工具</button>
+<button type="button" data-reason="周围要安静">周围要安静</button>
+<button type="button" data-reason="太麻烦">太麻烦</button>
+<button type="button" data-reason="">直接换一张</button></div></dialog>
+<dialog id="account" aria-labelledby="account-heading">
+  <form method="dialog"><button class="close" aria-label="关闭账户窗口">×</button></form>
+  <h2 id="account-heading">登录图一乐</h2>
+  <p class="dialog-note" id="account-offline" hidden>连接云端后可注册或登录。游客记录保存在这台设备的浏览器。</p>
+  <div id="account-forms" hidden>
+    <p class="dialog-note" id="account-operation"></p>
+    <p class="hint">登录会同步卡片记录、菜单和学习计划。榜单默认不公开你的信息。</p>
+    <form id="account-form">
+      <label class="field">用户名<input id="account-username" autocomplete="username" maxlength="24" required placeholder="3–24 位字母、数字或下划线"></label>
+      <label class="field" hidden>验证邮箱<input type="email" id="account-email" autocomplete="email" maxlength="254" required></label>
+      <label class="field">密码<input id="account-password" type="password" autocomplete="current-password" maxlength="128" required></label>
+      <button class="primary" id="account-submit" type="submit">登录</button>
+    </form>
+    <div class="account-links">
+      <button type="button" class="link" id="account-to-signup" data-account-mode="signup">注册账户</button>
+      <button type="button" class="link" id="account-to-forgot" data-account-mode="forgot">忘记密码</button>
+      <button type="button" class="link" id="account-to-login" data-account-mode="login" hidden>返回登录</button>
+    </div>
+  </div>
+  <div id="account-profile" hidden>
+    <strong id="account-who"></strong>
+    <p id="account-sync-info" class="dialog-note" role="status">云端已连接</p>
+  </div>
+  <div id="account-settings" hidden>
+    <label class="rank-choice"><input type="checkbox" id="account-public"> 在榜单显示用户名和完成数量</label>
+    <button type="button" class="secondary" id="account-sync-now">立即同步</button>
+    <button type="button" class="secondary" id="account-import" hidden>导入本机游客记录</button>
+    <button type="button" class="link" id="account-sign-out">退出登录</button>
+  </div>
+  <p class="dialog-note" id="account-message" role="status"></p>
+  <button type="button" class="secondary" id="account-guest">以游客身份继续</button>
+</dialog>
+<dialog id="awards" aria-labelledby="awards-heading">
+  <form method="dialog"><button class="close" aria-label="关闭成就窗口">×</button></form>
+  <h2 id="awards-heading">我的成就</h2>
+  <p class="dialog-note" id="award-progress"></p>
+  <section aria-labelledby="personal-heading"><h3 id="personal-heading">专属称号</h3><ul id="custom-awards" class="award-list"></ul></section>
+  <section aria-labelledby="standard-heading"><h3 id="standard-heading">共用徽章</h3><ul id="standard-awards" class="award-list"></ul></section>
+  <section aria-labelledby="weekly-heading"><h3 id="weekly-heading">本周榜单</h3><p id="weekly-status" class="dialog-note" role="status"></p><ul id="weekly-rank" class="award-list"></ul></section>
+</dialog>
+
 <noscript>请开启 JavaScript 后抽取任务卡。</noscript>
 <script>
 /* 新卡使用新的固定 id，地点和人数的取值见 README.md。 */
@@ -1449,7 +1726,7 @@ const places = { stay: "待在原地", out: "附近走走" };
 const people = { solo: "自己一个", pair: "和朋友" };
 const storageKey = "campus-capsule:v1";
 const form = byId("filters");
-const reasons = ["太麻烦", "现在做不了"];
+const reasons = ["太麻烦","现在做不了","时间不够","不方便出门","身边没人","缺工具","周围要安静"];
 let persistent = true;
 
 const staples = ["米饭","粉面","粥","包点饺馄","饼与面包","薯类与杂粮","无固定主食","待分类"];
@@ -1609,20 +1886,30 @@ function syncFoodControls() {
 function displayOffer() {
   const pool=candidates();
   const dish=pool.find(d=>d.id===hub.offer);
-  const box=byId("food-offer");
+  const dialog=byId("meal-dialog");
   byId("food-count").textContent=pool.length?"符合条件："+pool.length+" 道":"暂无匹配，试试放宽一个条件";
   byId("food-roll").disabled=!pool.length;
-  byId("food-confirm").hidden=box.hidden=!dish;
-  byId("food-roll").firstChild.textContent=dish?"换个建议 ":"帮我挑一餐 ";
-  if(rack.mode==="food") refreshRack();
-  if(!dish) return;
-  const name=document.createElement("strong");
-  name.textContent=dish.name;
-  const meta=document.createElement("small");
-  meta.textContent=dish.source+" · 参考 ¥"+dish.price+(dish.sample?" · 示例":" · 我的菜单");
-  const tags=document.createElement("small");
-  tags.textContent=mealInfo(dish);
-  box.replaceChildren(name,meta,tags);
+  byId("food-roll").firstChild.textContent=dish?"查看这道推荐 ":"帮我挑一餐 ";
+  if(!dish&&dialog.open)dialog.close();
+  if(rack.mode==="food")refreshRack();
+  if(!dish)return false;
+  byId("meal-name").textContent=dish.name;
+  byId("meal-price").textContent="¥"+dish.price+" 参考价";
+  byId("meal-tags").textContent=[dish.source,mealInfo(dish)].filter(Boolean).join(" · ");
+  byId("meal-limit").hidden=pool.length!==1;
+  byId("food-again").disabled=pool.length<2;
+  return true;
+}
+function openMeal() {
+  if(!displayOffer())return false;
+  const dialog=byId("meal-dialog");
+  if(!dialog.open){
+    clearLook();
+    cleanFrame();
+    dialog.showModal();
+    paintRack();
+  }
+  return true;
 }
 function endEdit() {
   editingDish=null;
@@ -1659,13 +1946,11 @@ function pickMeal() {
       fresh = other.filter(d=>hub.seen.indexOf(d.id)===first);
     }
     const chosen=fresh[Math.floor(Math.random()*fresh.length)];
-    spinTo(chosen.id,()=>{
-      hub.offer=chosen.id;
-      hub.seen=hub.seen.filter(id=>id!==chosen.id).concat(chosen.id);
-      byId("food-status").textContent=pool.length===1?"符合条件的只有这一餐。":"";
-      displayOffer(); persist();
-      focusResult("food-confirm");
-    });
+    hub.offer=chosen.id;
+    hub.seen=hub.seen.filter(id=>id!==chosen.id).concat(chosen.id);
+    byId("food-status").textContent="";
+    persist();
+    openMeal();
     return;
   }
   displayOffer();persist();
@@ -1772,13 +2057,16 @@ function initHub() {
     syncFoodControls(); byId("food-status").textContent=""; displayOffer(); persist();
   });
   byId("dish-cancel").addEventListener("click",endEdit);
-  byId("food-form").addEventListener("submit",e=>{e.preventDefault();pickMeal();});
+  byId("food-form").addEventListener("submit",e=>{e.preventDefault();if(!openMeal())pickMeal();});
+  byId("food-again").addEventListener("click",pickMeal);
+  byId("meal-dialog").addEventListener("close",scheduleRack);
   byId("food-confirm").addEventListener("click",()=>{
     const dish=candidates().find(d=>d.id===hub.offer);
     if(!dish)return;
     record("餐食",dish.name,{dish:dish.id,detail:dish.source+" · 参考 ¥"+dish.price+" · "+mealInfo(dish)});
     hub.offer=null;
     byId("food-status").textContent="这顿选了「"+dish.name+"」，已记进口袋。";
+    byId("meal-dialog").close();
     displayOffer();persist();
   });
   byId("menu-form").addEventListener("submit",e=>{
@@ -1798,13 +2086,127 @@ function initHub() {
   renderMenu();displayOffer();drawStudy();setMode(hub.mode);countPocket();
 }
 
-function readState() {
-  let raw = {};
-  try {
-    raw = JSON.parse(localStorage.getItem(storageKey)) || {};
-  } catch {
-    // 私密模式、禁用存储和损坏的旧数据都可以从空状态开始。
+const situationLabels = {
+  "时间不够":"只看 5 分钟内的卡", "不方便出门":"就在原地", "身边没人":"一个人也能做",
+  "缺工具":"避开需要工具的卡", "周围要安静":"避开需要出声的卡", "太麻烦":"优先步骤简单"
+};
+const sceneKey = "tuyile:situation";
+let scene = {};
+try {scene = JSON.parse(sessionStorage.getItem(sceneKey)) || {};} catch {}
+const toolCards = new Set("c01 c02 c04 c05 c10 c13 c14 c18 c21 c24 c25 c31 c36 c43 c51 c53 c55 c60 c62 c64 c68 c72 c78 c80 c81 c82".split(" "));
+const noisy = new Set("c10 c13 c14 c15 c16 c17 c19 c20 c22 c24 c29 c50 c55 c56 c57 c58 c59 c61 c62 c63 c65 c66 c67 c69 c72 c74 c75 c77 c80 c81 c83 c84".split(" "));
+function currentScene() {
+  return scene.until > Date.now() && Array.isArray(scene.reasons) ? scene.reasons.filter(r=>Object.hasOwn(situationLabels,r)) : [];
+}
+function changeScene(reason) {
+  if (reason && !Object.hasOwn(situationLabels,reason)) return;
+  scene = reason ? {reasons:[...new Set([...currentScene(),reason])],until:Date.now()+30*60*1000} : {};
+  try {sessionStorage.setItem(sceneKey,JSON.stringify(scene));} catch {}
+  renderScene();
+}
+function renderScene() {
+  const labels=currentScene().map(reason=>situationLabels[reason]);
+  byId("scene-note").hidden=!labels.length;
+  byId("scene-label").textContent=labels.join(" · ");
+}
+function eligibleFun(selection) {
+  const reasons=currentScene();
+  const effective={...selection};
+  if(reasons.includes("时间不够"))effective.time=5;
+  if(reasons.includes("不方便出门"))effective.place="stay";
+  if(reasons.includes("身边没人"))effective.people="solo";
+  return funPool(effective).filter(card =>
+    (!reasons.includes("缺工具") || !toolCards.has(card.id)) &&
+    (!reasons.includes("周围要安静") || !noisy.has(card.id)));
+}
+
+const achievementThemes = [
+  ["取景","c01 c02 c03 c05 c08 c09 c18 c19 c20 c21 c40 c43 c44 c46 c50 c53 c68 c72 c73 c75 c78"],
+  ["造物","c04 c05 c13 c17 c18 c23 c31 c35 c36 c49 c55 c58 c62 c64 c66 c68"],
+  ["故事","c06 c12 c15 c16 c17 c24 c26 c30 c32 c34 c37 c38 c54 c56 c59 c61 c65 c67 c69 c77 c79 c80 c84"],
+  ["声景","c10 c14 c15 c24 c27 c47 c52 c60 c65 c69"],
+  ["寻路","c07 c08 c11 c12 c22 c23 c39 c40 c41 c42 c43 c45 c47 c49 c51 c54 c70 c71 c73 c74 c76 c81 c82 c83"],
+  ["解谜","c09 c25 c26 c28 c29 c33 c34 c35 c39 c42 c45 c48 c50 c57 c58 c63 c67 c75 c76 c79 c82 c83"]
+];
+const themeSets = achievementThemes.map(([name, ids])=>[name,new Set(ids.split(" "))]);
+const standardAwards = [
+  [3,"课间新手"],[10,"课间玩家"],[25,"课间达人"],[50,"课间大师"],[84,"卡池收藏家"]
+];
+
+function orderedCompletions(entries) {
+  return [...entries].sort((a,b)=>a.when-b.when||a.id.localeCompare(b.id));
+}
+function uniqueCompleted(entries) {
+  const unique=new Map();
+  for(const row of orderedCompletions(entries)) {
+    if(cards.has(row.id)&&!unique.has(row.id))unique.set(row.id,row);
   }
+  return [...unique.values()];
+}
+
+function customAwards(entries) {
+  const titles=[];
+  const themeTotals=new Map(themeSets.map(([name])=>[name,0]));
+  const variants=new Map();
+  entries.forEach((entry,i)=>{
+    const card=cards.get(entry.id);
+    const matches=themeSets.filter(([, ids])=>ids.has(entry.id));
+    for(const [name] of matches.length ? matches : [[card.place==="out"?"寻路":"造物"]]) {
+      themeTotals.set(name,themeTotals.get(name)+1);
+    }
+    if((i+1)%3!==0)return;
+    const signature=[...themeTotals].filter(([,score])=>score>0).sort((a,b)=>b[1]-a[1]).slice(0, i>=5?3:2).map(([name])=>name).join("");
+    const order=(variants.get(signature)||0);variants.set(signature,order+1);
+    const ranks=["家","达人","能手","大师","玩家","队长","专家"];
+    const suffix=order<ranks.length?ranks[order]:String(order+1)+"阶";
+    titles.push({at:i+1,name:[...signature+suffix].slice(0,10).join(""),latest:entries.slice(i-2,i+1).map(x=>cards.get(x.id).title)});
+  });
+  return titles;
+}
+function localDay(when) {
+  const day=new Date(when);
+  return Math.floor(Date.UTC(day.getFullYear(),day.getMonth(),day.getDate())/86400000);
+}
+function renderAwards() {
+  const entries=uniqueCompleted(state.done);
+  const all=orderedCompletions(state.done);
+  const personal=customAwards(all);
+  const remaining=3-all.length%3;
+  byId("award-progress").textContent=all.length+" 次完成 · "+entries.length+" 张不同的卡 · 下个称号还差 "+remaining+" 次";
+  const custom=byId("custom-awards");
+  custom.replaceChildren();
+  if(!personal.length){const row=document.createElement("li");row.textContent="完成 3 次趣事卡，就能获得第一个专属称号。";custom.append(row);}
+  for(const item of [...personal].reverse()){
+    const row=document.createElement("li"),name=document.createElement("strong"),detail=document.createElement("small");
+    name.textContent=item.name;detail.textContent="第 "+item.at+" 张 · "+item.latest.join("、");
+    row.append(name,detail);custom.append(row);
+  }
+  const list=byId("standard-awards");
+  list.replaceChildren();
+  const cardData=entries.map(e=>cards.get(e.id));
+  const days=new Set(entries.map(e=>localDay(e.when)));
+  const badges=[
+    ...standardAwards.map(([target,name])=>[entries.length>=target,name,Math.min(entries.length,target)+"/"+target+" 张"]),
+    [cardData.filter(c=>c.people==="pair").length>=3,"搭档有约","完成 3 张双人趣事卡"],
+    [cardData.filter(c=>c.place==="out").length>=5,"校园探路员","完成 5 张外出趣事卡"],
+    [[...days].some(d=>days.has(d+1)&&days.has(d+2)),"三日寻乐","连续 3 天完成新卡"]
+  ];
+  for(const [unlocked,name,detail] of badges){
+    const row=document.createElement("li"),heading=document.createElement("strong"),meta=document.createElement("small");
+    row.dataset.unlocked=String(unlocked);
+    heading.textContent=name;meta.textContent=detail+(unlocked?" · 已解锁":"");
+    row.append(heading,meta);list.append(row);
+  }
+}
+byId("scene-clear").onclick=()=>{changeScene("");refreshRack();};
+byId("open-awards").onclick=()=>{renderAwards();byId("awards").showModal();window.capsuleLoadRanking?.();};
+renderScene();
+
+function readState(raw) {
+  if(raw===undefined){
+    try {raw=JSON.parse(localStorage.getItem(storageKey))||{};} catch {raw={};}
+  }
+  if(!raw||typeof raw!=="object")raw={};
   const recent = Array.isArray(raw.recent) ? raw.recent.filter(id => cards.has(id)) : [];
   const done = Array.isArray(raw.done) ? raw.done.filter(entry =>
     entry && cards.has(entry.id) && Number.isFinite(entry.when)) : [];
@@ -1821,10 +2223,11 @@ function readState() {
     }
   };
 }
-const state = readState();
-const hub = state.hub;
+let state = readState();
+let hub = state.hub;
 
 function persist() {
+  if(window.capsuleCloudPersist?.(state))return;
   try {
     localStorage.setItem(storageKey, JSON.stringify(state));
   } catch {
@@ -1833,14 +2236,18 @@ function persist() {
   }
 }
 
-function pickCard(selection, recent) {
-  const pool = funPool(selection);
-  if (!pool.length) return null;
-  const fresh = pool.filter(card => !recent.includes(card.id));
-  if (fresh.length) return fresh[Math.floor(Math.random() * fresh.length)];
-  // 顺序从旧到新。用尽后从最久未见的前半组中随机挑一张。
-  const ordered = pool.sort((a, b) => recent.indexOf(a.id) - recent.indexOf(b.id));
-  return ordered[Math.floor(Math.random() * Math.max(1, Math.floor(ordered.length / 2)))];
+function pickCard(selection,recent,skip) {
+  let pool=eligibleFun(selection).filter(card=>card.id!==skip);
+  if(!pool.length)return null;
+  if(currentScene().includes("太麻烦")){
+    const shortest=Math.min(...pool.map(c=>c.minutes));
+    pool=pool.filter(c=>c.minutes===shortest).sort((a,b)=>a.step.length-b.step.length);
+    pool=pool.slice(0,Math.max(2,Math.ceil(pool.length/2)));
+  }
+  const fresh=pool.filter(card=>!recent.includes(card.id));
+  if(fresh.length)return fresh[Math.floor(Math.random()*fresh.length)];
+  const ordered=pool.sort((a,b)=>recent.indexOf(a.id)-recent.indexOf(b.id));
+  return ordered[Math.floor(Math.random()*Math.max(1,Math.floor(ordered.length/2)))];
 }
 function showPanel(id, focusId) {
   for (const name of ["setup", "result", "saved"]) byId(name).hidden = name !== id;
@@ -1853,11 +2260,14 @@ function showCard(card, focus) {
   byId("goal").textContent = card.goal;
   showPanel("result", focus ? "card-title" : null);
 }
-function draw() {
-  const card = pickCard(state.selection, state.recent);
+function draw(skip=null) {
+  if(rack.phase==="spin")return;
+  if(scene.until&&scene.until<=Date.now()){changeScene("");refreshRack();}
+  renderScene();
+  const card = pickCard(state.selection, state.recent, typeof skip==="string"?skip:null);
   if (!card) {
     setup();
-    byId("notice").textContent = "这些条件暂时没有任务，试试另一组。";
+    byId("notice").textContent = currentScene().length?"当前场景没有其他合适的卡，可清除场景或调整条件。":"没有其他合适的卡，可调整筛选条件。";
     return;
   }
   if (persistent) byId("notice").textContent = "";
@@ -1895,18 +2305,26 @@ byId("swap").addEventListener("click", () => byId("reason").showModal());
 byId("reasons").addEventListener("click", event => {
   const button = event.target.closest("button[data-reason]");
   if (!button || !state.active) return;
-  if (button.dataset.reason) state.votes.push({ id: state.active, reason: button.dataset.reason });
+  const rejected=state.active;
+  if(button.dataset.reason){
+    state.votes.push({id:rejected,reason:button.dataset.reason,when:Date.now()});
+    changeScene(button.dataset.reason);
+    persist();
+    refreshRack();
+  }
   byId("reason").close();
-  draw();
+  draw(rejected);
 });
 byId("complete").addEventListener("click", () => {
   const card = cards.get(state.active);
   if (!card) return;
-  state.done.push({ id: card.id, when: Date.now() });
+  state.done.push({ id: card.id, when: Date.now(),eventId:crypto.randomUUID?.() });
+  window.capsuleRecordCompletion?.(card.id);
   state.active = null;
   persist();
   countPocket();
-  byId("saved-name").textContent = "「" + card.title + "」已记入你的完成记录。";
+  const earned=state.done.length%3===0 ? customAwards(orderedCompletions(state.done)).at(-1) : null;
+  byId("saved-name").textContent="「"+card.title+"」已记入完成记录。"+(earned?" 新称号 · "+earned.name:"");
   showPanel("saved", "saved-heading");
   refreshRack();
 });
@@ -2175,7 +2593,7 @@ function funPool(selection) {
   return TASKS.filter(c=>c.minutes<=selection.time && c.place===selection.place && c.people===selection.people);
 }
 function rackPool() {
-  if(hub.mode==="fun") return funPool(state.selection).map(c=>({id:c.id,no:c.id.slice(1),title:c.title,meta:c.minutes+" 分钟 · "+people[c.people]}));
+  if(hub.mode==="fun") return eligibleFun(state.selection).map(c=>({id:c.id,no:c.id.slice(1),title:c.title,meta:c.minutes+" 分钟 · "+people[c.people]}));
   if(hub.mode==="food") return candidates().map(d=>({id:d.id,no:String(hub.menu.indexOf(d)+1),title:d.name,meta:d.source+" · ¥"+d.price}));
   return studyPool();
 }
@@ -2241,7 +2659,8 @@ function measureRoom() {
   view.height = roomStage.clientHeight;
   const mobile = view.width <= 720;
   view.focal = Math.max(89, Math.min(440, view.width * (mobile ? .248 : .201)));
-  view.centerY = mobile ? roomPanel.offsetTop - 106 : roomPanel.offsetTop + Math.min(roomPanel.offsetHeight * .5, 191);
+  view.cardCeiling=roomMast.offsetTop+roomMast.querySelector(".mast-copy").offsetHeight+8;
+  view.centerY = mobile ? roomPanel.offsetTop - 96 : roomPanel.offsetTop + Math.min(roomPanel.offsetHeight * .5, 191);
   view.winnerY = roomMast.offsetTop + roomMast.querySelector(".mast-copy").offsetHeight * .5;
   roomStage.style.setProperty("--card-w", mobile ? "93px" : "164px");
   roomStage.style.setProperty("--card-h", mobile ? "69px" : "115px");
@@ -2256,8 +2675,12 @@ function paintRack() {
   const mobile = width <= 720;
   const centered = rack.phase === "landed";
   const manual = rack.paused || motionPref.matches;
-  const yaw = centered || manual ? 0 : view.yaw;
-  const pitch = centered || manual ? 0 : view.pitch / focal;
+  const yaw = manual ? 0 : view.yaw;
+  const pitch = manual ? 0 : view.pitch;
+  roomStage.style.setProperty("--look-x",(-yaw*104).toFixed(2)+"px");
+  roomStage.style.setProperty("--look-y",(pitch*135).toFixed(2)+"px");
+  roomStage.style.setProperty("--look-roll",(yaw*3).toFixed(2)+"deg");
+  roomStage.style.setProperty("--spin-energy",hub.mode==="fun"&&!motionPref.matches ? (rack.spin?.energy||0).toFixed(3):"0");
   const latitude = (mobile ? 17 : 14) * sphereDegrees;
   const closing = Math.min(1, Math.max(0, ((rack.spin?.progress ?? 0) - .82) / .18));
   const approach = closing * closing * (3 - 2 * closing);
@@ -2278,7 +2701,8 @@ function paintRack() {
     const travelX = width / 2 + focal * point.x / depth;
     const travelY = centerY - focal * point.y / depth;
     const scale = Math.min(mobile ? 1.35 : 1.59, .78 / depth);
-    const fade = Math.min(1,(depth - .15) * 4);
+    const headroom = mobile?Math.min(1,Math.max(0,(travelY-38*scale-view.cardCeiling+12)/12)):1;
+    const fade = Math.min(1,(depth - .15) * 4)*headroom;
     const retreat = centered ? .72 : 1 - approach * .22;
     const x = travelX + (width / 2 - travelX) * lock;
     const y = travelY + (winnerY - travelY) * lock;
@@ -2295,7 +2719,7 @@ function paintRack() {
   roomLetters.forEach((letter, i) => {
     const offset = Math.sin(angle * 2 + i * 1.16);
     letter.style.setProperty("--type-x", (offset * 11 - yaw * (100 + i * 39)).toFixed(1) + "px");
-    letter.style.setProperty("--type-y", (offset * 19 + pitch * focal * (1 + i * .24)).toFixed(1) + "px");
+    letter.style.setProperty("--type-y", (offset * 19 + pitch * 138 * (1 + i * .24)).toFixed(1) + "px");
     letter.style.setProperty("--type-angle", ((1-i) * 17 + yaw * 95).toFixed(1) + "deg");
     letter.style.setProperty("--type-stretch", (1 + offset * .126).toFixed(3));
   });
@@ -2310,6 +2734,7 @@ function clampAngle(angle) {
 }
 function holdPreview() {
   rack.paused = true;
+  clearLook();
   cleanFrame();
   setRackState("idle");
 }
@@ -2350,12 +2775,27 @@ room.addEventListener("pointermove", event => {
       return;
     }
   }
-  if (rack.paused || !canBrowse() || motionPref.matches || event.pointerType !== "mouse") return;
-  const rect = roomStage.getBoundingClientRect();
-  view.targetYaw = ((event.clientX - rect.left) / rect.width - .5) * .20;
-  view.targetPitch = ((event.clientY - rect.top) / rect.height - .5) * 29;
 });
-room.addEventListener("pointerleave", () => {view.targetYaw = 0; view.targetPitch = 0; if (!dragging?.active) dragging = null;});
+function clearLook() {
+  view.targetYaw=0;view.targetPitch=0;view.yaw=0;view.pitch=0;
+}
+function lookMoving(){
+  return !rack.paused&&!motionPref.matches &&
+    Math.abs(view.targetYaw-view.yaw)+Math.abs(view.targetPitch-view.pitch)>.0006;
+}
+window.addEventListener("pointermove",event=>{
+  if(rack.paused||rack.spin||motionPref.matches||event.pointerType!=="mouse"||dragging?.active||
+    event.target.closest?.("dialog"))return;
+  view.targetYaw=(event.clientX/Math.max(1,innerWidth)*2-1)*.185;
+  view.targetPitch=(event.clientY/Math.max(1,innerHeight)*2-1)*.115;
+  scheduleRack();
+},{passive:true});
+window.addEventListener("pointerout",event=>{
+  if(event.relatedTarget)return;
+  view.targetYaw=0;view.targetPitch=0;
+  if(!dragging?.active)dragging=null;
+  scheduleRack();
+});
 function finishDrag(event) {
   if (dragging?.id !== event.pointerId) return;
   dragging = null;
@@ -2426,7 +2866,7 @@ function setRackState(phase) {
   document.querySelector(".exhibit").setAttribute("aria-busy",String(spin));
 }
 function scheduleRack(){
-  if(!rack.frame&&!document.hidden&&(rack.phase==="spin"||previewMove||(rack.phase==="idle"&&!rack.paused&&rack.items.length>1))) rack.frame=requestAnimationFrame(tickRack);
+  if(!rack.frame&&!document.hidden&&!byId("meal-dialog").open&&(rack.phase==="spin"||previewMove||lookMoving()||(rack.phase==="idle"&&!rack.paused&&rack.items.length>1))) rack.frame=requestAnimationFrame(tickRack);
 }
 function cleanFrame(){cancelAnimationFrame(rack.frame);rack.frame=0;rack.last=0;}
 function alignCard(id) {
@@ -2476,7 +2916,7 @@ function refreshRack() {
   byId("empty-rack").hidden=!!n;
   byId("empty-rack").textContent=hub.mode==="study"?"输入学习任务，生成你的步骤卡":"没有符合条件的卡片";
   if(hub.mode==="study")byId("pool-count").textContent=n+" 个步骤";
-  const id=hub.mode==="fun"?state.active:hub.mode==="food"?hub.offer:hub.working?hub.studyCard:null;
+  const id=hub.mode==="fun"?state.active:hub.mode==="study"&&hub.working?hub.studyCard:null;
   const chosen=rack.pool.find(c=>c.id===id);
   rack.items.forEach(item=>item.el.classList.remove("picked"));
   if(chosen){ensureMounted(chosen);alignCard(id);}
@@ -2499,19 +2939,20 @@ function tickRack(now) {
     s.progress=t;
     // A short run-up and a longer brake. Integrated velocity is continuous at the peak.
     const peak=.24, eased=t<peak?t*t/peak:1-(1-t)*(1-t)/(1-peak);
+    s.energy=t<peak?t/peak:(1-t)/(1-peak);
     rack.angle=s.from+s.travel*eased;
     if(t===1){land();return;}
   }else if(rack.phase==="idle"&&!rack.paused){
     rack.angle=(rack.angle+Math.min(64,rack.last?now-rack.last:0)*.00013)%turn;
   }
-  view.yaw+=(view.targetYaw-view.yaw)*.065;
-  view.pitch+=(view.targetPitch-view.pitch)*.065;
+  view.yaw+=(view.targetYaw-view.yaw)*.12;
+  view.pitch+=(view.targetPitch-view.pitch)*.12;
   rack.last=now;paintRack();scheduleRack();
 }
 function spinTo(id,commit) {
   if(rack.spin)return;
   previewMove=null;
-  view.yaw=0;view.pitch=0;
+  clearLook();
   const card=rack.pool.find(c=>c.id===id);
   if(!card)return;
   rack.items.forEach(item=>item.el.classList.remove("picked"));
@@ -2527,19 +2968,30 @@ function spinTo(id,commit) {
 }
 byId("motion-btn").addEventListener("click",()=>{
   if(rack.phase==="landed"){
-    const id={fun:"card-title",food:"food-offer",study:"study-name"}[hub.mode];
+    const id=hub.mode==="study"?"study-name":"card-title";
     const target=byId(id);target.tabIndex=-1;target.focus({preventScroll:true});
     target.scrollIntoView({block:"center",behavior:motionPref.matches?"instant":"smooth"});return;
   }
-  previewMove=null;rack.paused=!rack.paused;cleanFrame();setRackState("idle");scheduleRack();
+  previewMove=null;rack.paused=!rack.paused;clearLook();cleanFrame();setRackState("idle");scheduleRack();
 });
-motionPref.addEventListener("change",()=>{rack.paused=motionPref.matches;if(rack.paused)previewMove=null;if(rack.spin&&rack.paused){land();return;}cleanFrame();setRackState(rack.phase);scheduleRack();});
+motionPref.addEventListener("change",()=>{rack.paused=motionPref.matches;clearLook();if(rack.paused)previewMove=null;if(rack.spin&&rack.paused){land();return;}cleanFrame();setRackState(rack.phase);scheduleRack();});
 document.addEventListener("visibilitychange",()=>{cleanFrame();if(!document.hidden)scheduleRack();});
 measureRoom();
 
-for (const [field, value] of Object.entries(state.selection)) form.elements[field].value = String(value);
-countPocket();
-if (state.active) showCard(cards.get(state.active), false);
+function restoreFunPanel(){
+  for(const [field,value] of Object.entries(state.selection))form.elements[field].value=String(value);
+  if(state.active)showCard(cards.get(state.active),false);
+  else showPanel("setup");
+}
+function loadCurrentProfile(){
+  endEdit();
+  updateBands();syncFoodControls();restoreFunPanel();
+  byId("food-status").textContent="";
+  byId("study-status").textContent="";
+  byId("notice").textContent="";
+  renderMenu();displayOffer();drawStudy();setMode(hub.mode);countPocket();
+}
+restoreFunPanel();
 initHub();
 
 </script>
@@ -2894,4 +3346,373 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
 -->
+<script>
+(() => {
+  const settings = {
+    url:document.querySelector('meta[name="capsule-cloud-url"]').content.trim().replace(/\/$/,""),
+    key:document.querySelector('meta[name="capsule-cloud-key"]').content.trim()
+  };
+  const configured = /^https:\/\/[\w-]+\.supabase\.co$/.test(settings.url) ||
+    /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(settings.url);
+  const enabled = configured && !!settings.key && location.protocol !== "file:";
+  const dialog=byId("account"), message=byId("account-message"), form=byId("account-form");
+  const copy = data => JSON.parse(JSON.stringify(data));
+  const same = (a,b) => JSON.stringify(a)===JSON.stringify(b);
+  const notes = {login:"",signup:"邮箱用于验证账户和找回密码。",forgot:"输入注册时使用的邮箱。",recovery:"设置长度至少 10 位的新密码。"};
+  const redirect = location.origin + location.pathname;
+  let client, initialization, account, debounce=0, busy=false, view="login", recovery=false;
+  let syncingError=false;
+
+  function readCache(key) {
+    try {return JSON.parse(localStorage.getItem(key));} catch {return null;}
+  }
+  function stash(context) {
+    try {
+      localStorage.setItem(context.key,JSON.stringify({base:context.base,snapshot:context.snapshot,pending:[...context.pending]}));
+    } catch {}
+  }
+  function mergeEntryList(a,b,key) {
+    const rows=new Map();
+    for(const row of [...a,...b])rows.set(key(row),row);
+    return [...rows.values()].sort((x,y)=>(x.when||0)-(y.when||0));
+  }
+  function mergeSnapshots(remote,local,base) {
+    const next=copy(remote);
+    const mergeGroups = (output, edited, prior, groups)=>{
+      for(const keys of groups){
+        if(keys.some(key=>!same(edited[key],prior[key]))) {
+          for(const key of keys)output[key]=edited[key];
+        }
+      }
+    };
+    mergeGroups(next,local,base,[["active","selection","recent"]]);
+    mergeGroups(next.hub,local.hub,base.hub,[
+      ["mode"],["likes"],["menu","menuVersion"],
+      ["source","band","staple","cuisine","tags","offer","seen"],
+      ["task","block","working","plan","studyCard","action","bookmark"]
+    ]);
+    next.done=mergeEntryList(remote.done,local.done,row=>row.eventId||JSON.stringify([row.id,row.when]));
+    next.votes=mergeEntryList(remote.votes,local.votes,row=>JSON.stringify([row.id,row.when||0,row.reason]));
+    next.hub.history=mergeEntryList(remote.hub.history,local.hub.history,row=>JSON.stringify([row.kind,row.title,row.when,row.detail]));
+    return readState(next);
+  }
+  function refreshAccountView() {
+    const signed=!!account;
+    byId("account-heading").textContent=signed?"我的账户":"登录图一乐";
+    byId("open-account").textContent=signed||!enabled?"账户":"登录";
+    byId("account-profile").hidden=!signed;
+    byId("account-settings").hidden=!signed;
+    byId("account-guest").hidden=signed;
+    byId("account-forms").hidden=signed;
+    byId("account-offline").hidden=signed||enabled;
+    byId("account-who").textContent=signed?account.username:"";
+    const guest=readState();
+    byId("account-import").hidden=!signed||!(guest.done.length||guest.hub.history.length);
+    byId("account-public").checked=Boolean(account?.ranked);
+    byId("account-public").disabled=busy;
+    const detail=signed ? "已登录 · 记录可跨设备同步" : "游客模式 · 记录保存在当前浏览器";
+    byId("pocket-location").textContent=detail;
+  }
+  function showMode(next) {
+    view=next;
+    const login=next==="login", signup=next==="signup", forgot=next==="forgot", reset=next==="recovery";
+    byId("account-operation").textContent=notes[next];
+    byId("account-operation").hidden=!notes[next];
+    const username=byId("account-username"), email=byId("account-email"), pass=byId("account-password");
+    username.closest("label").hidden=!(login||signup);
+    email.closest("label").hidden=!(signup||forgot);
+    pass.closest("label").hidden=forgot;
+    username.disabled=!enabled||!(login||signup);
+    email.disabled=!enabled||!(signup||forgot);
+    pass.disabled=!enabled||forgot;
+    byId("account-submit").disabled=!enabled;
+    pass.autocomplete=signup||reset?"new-password":"current-password";
+    pass.minLength=signup||reset?10:1;
+    pass.value="";
+    byId("account-submit").textContent=login?"登录":signup?"发送验证邮件":forgot?"发送找回邮件":"保存新密码";
+    byId("account-to-login").hidden=login||reset;
+    byId("account-to-signup").hidden=!login;
+    byId("account-to-forgot").hidden=!login;
+  }
+  function showDialog() {
+    refreshAccountView();
+    if(!dialog.open&&!byId("launch").open)dialog.showModal();
+  }
+  function replaceProfile(raw) {
+    pendingStudy?.abort();
+    state=readState(raw);
+    hub=state.hub;
+    loadCurrentProfile();
+  }
+  function leaveProfile() {
+    if(!account)return;
+    stash(account);
+    account=null;
+    clearTimeout(debounce);
+    replaceProfile(readState());
+    changeScene("");
+    refreshRack();
+    refreshAccountView();
+    renderAwards();
+    byId("weekly-rank").replaceChildren();
+    byId("weekly-status").textContent="登录后可查看本周榜单。";
+  }
+  async function getCloudState(uid) {
+    const {data,error}=await client.from("capsule_state").select("revision,snapshot").eq("user_id",uid).maybeSingle();
+    if(error)throw error;
+    return {revision:data?.revision||0,snapshot:readState(data?.snapshot||{})};
+  }
+  async function openProfile(session) {
+    if(!session?.user?.id)return;
+    const uid=session.user.id, key="tuyile:account:"+settings.url+":"+uid;
+    const {data,error}=await client.from("capsule_accounts").select("username,ranked").eq("user_id",uid).single();
+    if(error)throw error;
+    const remote=await getCloudState(uid);
+    const local=readCache(key);
+    const merged=local?.snapshot ? mergeSnapshots(remote.snapshot,readState(local.snapshot),readState(local.base||{})) : remote.snapshot;
+    account={key,uid,username:data.username,ranked:data.ranked,base:remote.snapshot,snapshot:merged,
+      pending:new Set((local?.pending||[]).filter(id=>cards.has(id))),revision:remote.revision,working:false};
+    syncingError=false;
+    showSync("云端已连接");
+    replaceProfile(merged);
+    changeScene("");
+    refreshRack();
+    refreshAccountView();
+    renderAwards();
+    queueSync();
+  }
+  function showSync(text) {
+    byId("account-sync-info").textContent=text;
+  }
+  function queueSync() {
+    clearTimeout(debounce);
+    if(account)debounce=setTimeout(()=>void syncAccount(),620);
+  }
+  async function syncAccount(checkRemote=false) {
+    const ctx=account;
+    if(!ctx||ctx.working)return;
+    if(rack.phase==="spin"){queueSync();return;}
+    ctx.working=true;
+    try {
+      if(checkRemote){
+        const remote=await getCloudState(ctx.uid);
+        if(account!==ctx||rack.phase==="spin")return;
+        if(remote.revision!==ctx.revision){
+          ctx.snapshot=mergeSnapshots(remote.snapshot,ctx.snapshot,ctx.base);
+          ctx.base=remote.snapshot;
+          ctx.revision=remote.revision;
+          replaceProfile(ctx.snapshot);
+        }
+      }
+      if(!same(ctx.snapshot,ctx.base)||ctx.pending.size)showSync("正在同步…");
+      for(let attempt=0;!same(ctx.snapshot,ctx.base)&&attempt<3;attempt++){
+        const local=copy(ctx.snapshot);
+        const {data:revision,error}=await client.rpc("capsule_save_state",{p_user:ctx.uid,p_revision:ctx.revision,p_snapshot:local});
+        if(account!==ctx)return;
+        if(error)throw error;
+        if(revision){
+          ctx.revision=revision;
+          ctx.base=local;
+          break;
+        }
+        const remote=await getCloudState(ctx.uid);
+        if(account!==ctx||rack.phase==="spin")return;
+        ctx.snapshot=mergeSnapshots(remote.snapshot,ctx.snapshot,ctx.base);
+        ctx.base=remote.snapshot;
+        ctx.revision=remote.revision;
+        replaceProfile(ctx.snapshot);
+      }
+      if(ctx.pending.size){
+        const ids=[...ctx.pending];
+        const {error}=await client.rpc("capsule_award_cards",{p_user:ctx.uid,p_cards:ids});
+        if(account!==ctx)return;
+        if(error)throw error;
+        ids.forEach(id=>ctx.pending.delete(id));
+      }
+      syncingError=false;
+      showSync(same(ctx.snapshot,ctx.base)?"云端已同步":"本机有新改动，正在继续同步");
+    } catch {
+      if(account===ctx){
+        syncingError=true;
+        showSync("云端暂时不可用，改动已保存在本机。");
+      }
+    } finally {
+      if(account===ctx){
+        ctx.working=false;
+        stash(ctx);
+        if(!syncingError&&(!same(ctx.snapshot,ctx.base)||ctx.pending.size))queueSync();
+      }
+    }
+  }
+  window.capsuleCloudPersist = snapshot => {
+    if(!account)return false;
+    account.snapshot=copy(snapshot);
+    stash(account);
+    queueSync();
+    return true;
+  };
+  window.capsuleRecordCompletion = id => {
+    if(!account)return;
+    account.pending.add(id);
+    stash(account);
+  };
+
+  async function cloud() {
+    if(initialization)return initialization;
+    initialization=(async()=>{
+      const {createClient}=await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.86.0/+esm");
+      client=createClient(settings.url,settings.key,{auth:{storageKey:"tuyile-auth-"+settings.url}});
+      client.auth.onAuthStateChange((event,session)=>{
+        if(event==="PASSWORD_RECOVERY")recovery=true;
+        if(event==="SIGNED_OUT")setTimeout(leaveProfile,0);
+        if(session&&account&&session.user.id!==account.uid){
+          setTimeout(()=>{leaveProfile();showDialog();},0);
+        }
+      });
+      return client;
+    })();
+    try {return await initialization;}catch(error){initialization=null;throw error;}
+  }
+  async function signIn(username,password) {
+    const response=await fetch(settings.url+"/functions/v1/capsule-login",{method:"POST",
+      headers:{"Content-Type":"application/json",apikey:settings.key},body:JSON.stringify({username,password})});
+    const result=await response.json();
+    if(!response.ok)throw new Error(typeof result.message==="string" ? result.message : "账户服务暂时不可用。");
+    const {data,error}=await client.auth.setSession(result);
+    if(error||!data.session)throw new Error("登录状态无法保存，请重试。");
+    await openProfile(data.session);
+  }
+  function friendly(view) {
+    return view==="signup"?"注册未完成。请核对邮箱，或尝试另一个用户名。":
+      view==="forgot"?"邮件暂时无法发送，请稍后再试。":"账户服务暂时不可用，请重试。";
+  }
+  form.onsubmit=async event=>{
+    event.preventDefault();
+    if(busy||!enabled)return;
+    const operation=view;
+    const username=byId("account-username").value.normalize("NFKC").trim().toLowerCase();
+    const email=byId("account-email").value.trim();
+    const pass=byId("account-password");
+    const password=pass.value;
+    if((operation==="login"||operation==="signup")&&!/^[a-z0-9_]{3,24}$/.test(username)){
+      message.textContent="用户名需为 3–24 位英文字母、数字或下划线。";return;
+    }
+    busy=true;byId("account-submit").disabled=true;pass.value="";
+    message.textContent="正在处理…";
+    try {
+      await cloud();
+      if(operation==="login"){
+        await signIn(username,password);
+        dialog.close();
+        message.textContent="";
+      }else if(operation==="signup"){
+        const {error}=await client.auth.signUp({email,password,options:{data:{username},emailRedirectTo:redirect}});
+        if(error)throw error;
+        showMode("login");
+        message.textContent="请查看邮箱并完成验证，然后用用户名登录。";
+      }else if(operation==="forgot"){
+        const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:redirect});
+        if(error)throw error;
+        showMode("login");
+        message.textContent="如果该邮箱已注册，请查看找回邮件。";
+      }else{
+        const {error}=await client.auth.updateUser({password});
+        if(error)throw error;
+        await client.auth.signOut();
+        recovery=false;showMode("login");
+        message.textContent="新密码已保存，请重新登录。";
+      }
+    }catch(error){
+      message.textContent=operation==="login"&&error instanceof Error&&!error.code ? error.message : friendly(operation);
+    }finally{busy=false;byId("account-submit").disabled=false;}
+  };
+
+  for(const button of dialog.querySelectorAll("[data-account-mode]")){
+    button.disabled=!enabled;
+    button.onclick=()=>{message.textContent="";showMode(button.dataset.accountMode);};
+  }
+  byId("open-account").onclick=()=>{message.textContent="";showDialog();};
+  byId("account-guest").onclick=()=>dialog.close();
+  dialog.addEventListener("close",()=>{byId("account-password").value="";});
+  byId("account-sync-now").onclick=()=>void syncAccount(true);
+  byId("account-import").onclick=()=>{
+    if(!account)return;
+    const guest=readState();
+    const copyLocal=copy(state);
+    copyLocal.done=mergeEntryList(copyLocal.done,guest.done,row=>row.eventId||JSON.stringify([row.id,row.when]));
+    copyLocal.hub.history=mergeEntryList(copyLocal.hub.history,guest.hub.history,row=>JSON.stringify([row.kind,row.title,row.when,row.detail]));
+    copyLocal.hub.likes=[...new Set([...copyLocal.hub.likes,...guest.hub.likes])];
+    replaceProfile(copyLocal);persist();
+    message.textContent="游客记录已合入账户。历史记录只用于个人成就。";
+  };
+  byId("account-sign-out").onclick=async()=>{
+    if(busy||!account)return;
+    busy=true;
+    try {
+      await syncAccount();
+      const {error}=await client.auth.signOut({scope:"local"});
+      if(error)throw error;
+      leaveProfile();showMode("login");message.textContent="已退出账户。";
+    }catch{message.textContent="暂时无法退出账户，请重试。";}
+    finally{busy=false;}
+  };
+  byId("account-public").onchange=async event=>{
+    const ctx=account;
+    if(!ctx)return;
+    const visible=event.target.checked;
+    event.target.disabled=true;
+    try {
+      const {error}=await client.rpc("capsule_rank_visibility",{p_user:ctx.uid,p_visible:visible});
+      if(error)throw error;
+      if(account===ctx)ctx.ranked=visible;
+      message.textContent=visible?"已加入本周榜单。":"已退出榜单。";
+    }catch{event.target.checked=ctx.ranked;message.textContent="榜单设置暂时无法保存。";}
+    finally{event.target.disabled=false;}
+  };
+  window.capsuleLoadRanking=async()=>{
+    const ctx=account,list=byId("weekly-rank"),status=byId("weekly-status");
+    list.replaceChildren();
+    if(!ctx){status.textContent=enabled?"登录后可查看本周榜单。":"连接云端后可查看本周榜单。";return;}
+    status.textContent="正在加载榜单…";
+    try {
+      await syncAccount();
+      const {data,error}=await client.rpc("capsule_leaderboard");
+      if(error)throw error;
+      if(account!==ctx)return;
+      status.textContent=data.length?"每周一 00:00（北京时间）重新计分。":"本周暂无上榜记录。";
+      for(const entry of data){
+        const row=document.createElement("li"),player=document.createElement("strong"),score=document.createElement("small");
+        player.textContent="#"+entry.rank_no+" "+entry.player;
+        score.textContent="本周 "+entry.weekly+" 张 · 累计 "+entry.total+" 张";
+        row.append(player,score);list.append(row);
+      }
+    }catch{status.textContent="榜单暂时无法加载。";}
+  };
+  window.addEventListener("online",()=>void syncAccount(true));
+  window.addEventListener("focus",()=>void syncAccount(true));
+
+  async function start() {
+    showMode("login");
+    refreshAccountView();
+    if(!enabled)return;
+    try {
+      await cloud();
+      const {data}=await client.auth.getSession();
+      if(recovery){showMode("recovery");showDialog();return;}
+      if(data.session){await openProfile(data.session);return;}
+    }catch{message.textContent="云端暂时无法连接，可先用游客模式。";}
+    try {
+      const key="tuyile-account-prompt";
+      if(sessionStorage.getItem(key))return;
+      sessionStorage.setItem(key,"shown");
+    }catch {}
+    if(!document.querySelector("dialog[open]"))showDialog();
+  }
+  if(byId("launch").open)byId("launch").addEventListener("close",()=>void start(),{once:true});
+  else void start();
+})();
+
+
+
+</script>
 </body></html>
